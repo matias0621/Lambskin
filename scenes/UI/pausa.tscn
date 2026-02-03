@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://cs6ubupm61ua4"]
+
+[ext_resource type="Script" path="res://scenes/UI/pausa.gd" id="1_qduny"]
+[ext_resource type="FontFile" path="res://celtic-bit.ttf" id="2_mwagl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jfxe8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3a2t"]
+
+[node name="Pausa" type="Control" unique_id=1141100348]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qduny")
+
+[node name="Label" type="Label" parent="." unique_id=856708508]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.23500001
+anchor_right = 0.5
+anchor_bottom = 0.23500001
+offset_left = -358.0
+offset_top = -70.280014
+offset_right = 367.0
+offset_bottom = 37.719986
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_mwagl")
+theme_override_font_sizes/font_size = 66
+text = "PAUSA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Continuar" type="Button" parent="." unique_id=1119055135]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 272.0
+offset_right = 740.0
+offset_bottom = 322.0
+theme_override_fonts/font = ExtResource("2_mwagl")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jfxe8")
+text = "CONTINUAR"
+
+[node name="Salir" type="Button" parent="." unique_id=146637340]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = 38.0
+offset_right = 104.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_mwagl")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_x3a2t")
+text = "SALIR"

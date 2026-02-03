@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dxy7m0capxxhw"]
+
+[ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://assets/stage/PILAR .fbx" id="1_flap5"]
+[ext_resource type="Texture2D" uid="uid://bevdmpeugiyph" path="res://assets/stage/columna modulo.png" id="2_yu5sr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmy0p"]
+albedo_texture = ExtResource("2_yu5sr")
+
+[node name="PILAR " unique_id=17047648 instance=ExtResource("1_flap5")]
+
+[node name="Cube_008" parent="." index="0" unique_id=1280196454]
+surface_material_override/0 = SubResource("StandardMaterial3D_fmy0p")

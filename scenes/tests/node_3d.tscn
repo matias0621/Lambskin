@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dhiweg73xx7ox"]
+
+[ext_resource type="PackedScene" uid="uid://wadqsxk4j2f5" path="res://assets/monster_model/assets.glb" id="1_ol1t5"]
+
+[node name="Node3D" type="Node3D" unique_id=1314801446]
+
+[node name="assets" parent="." unique_id=719537428 instance=ExtResource("1_ol1t5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85439193, 0, -4.704031)
