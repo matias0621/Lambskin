@@ -1,7 +1,13 @@
 [gd_scene format=3 uid="uid://b61gacvv1qs15"]
 
-[ext_resource type="Script" path="res://scenes/UI/main_menu.gd" id="1_yonvy"]
-[ext_resource type="FontFile" path="res://celtic-bit.ttf" id="2_5jstl"]
+[ext_resource type="Script" uid="uid://b3nhjrng4qjc4" path="res://scenes/UI/main_menu.gd" id="1_yonvy"]
+[ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="2_tfcbk"]
+[ext_resource type="FontFile" uid="uid://drk66osvohoaj" path="res://scenes/UI/GotikaOrnament_PERSONAL_USE_ONLY.otf" id="3_e2p27"]
+[ext_resource type="Script" path="res://scenes/UI/iniciar.gd" id="4_e2p27"]
+[ext_resource type="Script" uid="uid://chsy8d62b3m6v" path="res://scenes/UI/opciones.gd" id="5_bm8t2"]
+[ext_resource type="Script" path="res://scenes/UI/salir.gd" id="5_ngj32"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e2p27"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_58fj5"]
 
@@ -16,6 +22,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yonvy")
 
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=228493522]
+position = Vector2(574.75, 321.75)
+scale = Vector2(1150.5, 644.5)
+mesh = SubResource("BoxMesh_e2p27")
+texture = ExtResource("2_tfcbk")
+
 [node name="Titulo" type="Label" parent="." unique_id=1011718068]
 layout_mode = 1
 anchors_preset = 8
@@ -23,29 +35,51 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -190.0
-offset_right = 419.0
-offset_bottom = 43.0
+offset_left = -425.0
+offset_top = -217.0
+offset_right = 414.0
+offset_bottom = -79.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.105882354, 0.050980393, 1)
 theme_override_constants/line_spacing = 116
-theme_override_fonts/font = ExtResource("2_5jstl")
-theme_override_font_sizes/font_size = 96
-text = "Piel de
-Cordero"
+theme_override_fonts/font = ExtResource("3_e2p27")
+theme_override_font_sizes/font_size = 100
+text = "MENU_TITLE"
+horizontal_alignment = 1
 
 [node name="Iniciar" type="Button" parent="." unique_id=849008356]
 layout_mode = 0
-offset_left = 463.0
-offset_top = 410.0
-offset_right = 692.0
-offset_bottom = 460.0
-theme_override_fonts/font = ExtResource("2_5jstl")
-theme_override_font_sizes/font_size = 30
+offset_left = 460.0
+offset_top = 321.0
+offset_right = 689.0
+offset_bottom = 387.0
+theme_override_fonts/font = ExtResource("3_e2p27")
+theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_58fj5")
-text = " INICIAR "
+text = "START_BUTTON"
+icon_alignment = 1
+script = ExtResource("4_e2p27")
+
+[node name="Opciones" type="Button" parent="." unique_id=554071408]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = 74.0
+offset_right = 96.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_e2p27")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3h7gc")
+text = "OPTION_BUTTON"
+icon_alignment = 1
+script = ExtResource("5_bm8t2")
 
 [node name="Salir" type="Button" parent="." unique_id=2039364443]
 layout_mode = 1
@@ -54,13 +88,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 174.0
-offset_right = 104.0
-offset_bottom = 229.0
+offset_left = -106.0
+offset_top = 145.0
+offset_right = 94.0
+offset_bottom = 211.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_5jstl")
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("3_e2p27")
+theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_3h7gc")
-text = "SALIR"
+text = "EXIT_BUTTON"
+icon_alignment = 1
+script = ExtResource("5_ngj32")
+
+[connection signal="pressed" from="Iniciar" to="Iniciar" method="_on_pressed"]
+[connection signal="pressed" from="Opciones" to="Opciones" method="_on_pressed"]
+[connection signal="pressed" from="Salir" to="Salir" method="_on_pressed"]
