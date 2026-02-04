@@ -5,12 +5,12 @@ extends CharacterBody3D
 @export var acceleration:float = 20
 @export var device_id:int = -1
 @export var monster_animation:MonsterAnimation
+@export var human_model: MonsterAnimation 
+@export var mask_node:Mask
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
-@onready var mask_node: CharacterBody3D = $Mask
 @onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
-@onready var human_model: MonsterAnimation = $HumanModel
 var attacking = false
 
 
@@ -31,11 +31,17 @@ func _ready() -> void:
 	print(device_id)
 
 func _process(delta: float) -> void:
+	
+	if MultiplayerInput.is_action_just_pressed(-1,"a"):
+		set_as_human()
+	if MultiplayerInput.is_action_just_pressed(-1,"b"):
+		set_as_monster()
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	if not stun:
-		var input_dir = MultiplayerInput.get_vector(device_id ,"player_one_right", "player_one_left", "player_one_down", "player_one_up")
+		var input_dir = MultiplayerInput.get_vector(device_id ,"player_right", "player_left", "player_down", "player_up")
 		
 		if MultiplayerInput.is_action_just_pressed(device_id,"shoot_mask") and not is_mask_thrown and is_in_group("Human"):
 			attacking = true

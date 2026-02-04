@@ -1,3 +1,4 @@
+class_name Mask
 extends CharacterBody3D
 
 const SPEED = 300.0

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="3_2t5fa"]
 [ext_resource type="PackedScene" uid="uid://cyac8urm1xiu5" path="res://stage/pARED.fbx" id="3_hmyw1"]
 [ext_resource type="PackedScene" uid="uid://cbn8q441nfpkb" path="res://stage/PEURTA.fbx" id="4_kjxda"]
+[ext_resource type="PackedScene" uid="uid://vo0hk7mmfl85" path="res://scenes/player/player.tscn" id="6_ma121"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ma121"]
 albedo_texture = ExtResource("2_hvea7")
@@ -147,3 +148,6 @@ transform = Transform3D(-5.0126808e-05, -0.0076791495, -0.9999705, -0.9999786, 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D8" unique_id=217355535]
 transform = Transform3D(1, -1.7229468e-08, 0, 1.7229468e-08, 1, 0, -2.5465852e-11, -1.7229468e-08, 1, 0.4774475, 5.6986504, 44.946632)
 shape = SubResource("BoxShape3D_ma121")
+
+[node name="Player" parent="." unique_id=2023949539 instance=ExtResource("6_ma121")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.264166, 7.0711546, 53.880253)
