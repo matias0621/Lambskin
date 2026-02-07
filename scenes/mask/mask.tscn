@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://br8knjy0cqlad"]
 
 [ext_resource type="Script" uid="uid://d7mc8jju13ep" path="res://scenes/mask/mask.gd" id="1_jlvus"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_61b51"]
+[ext_resource type="PackedScene" uid="uid://dv2ani1ned5e5" path="res://models/mask_model/mask_test.tscn" id="2_61b51"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0pm64"]
 radius = 1.9396756
@@ -10,10 +9,9 @@ radius = 1.9396756
 [node name="Mask" type="CharacterBody3D" unique_id=1720092688]
 script = ExtResource("1_jlvus")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=89180503]
-mesh = SubResource("SphereMesh_61b51")
-
 [node name="Area3D" type="Area3D" parent="." unique_id=1451706656]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=981678234]
 shape = SubResource("SphereShape3D_0pm64")
+
+[node name="mask_test" parent="." unique_id=1538147156 instance=ExtResource("2_61b51")]

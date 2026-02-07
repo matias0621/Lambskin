@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://d2k43qteblc0q"]
 
 [ext_resource type="PackedScene" uid="uid://diuehysq1ak6x" path="res://test/test_monster.glb" id="1_koaks"]
+[ext_resource type="Script" uid="uid://cmyojxye2643r" path="res://scenes/player/animations.gd" id="2_q30se"]
 
-[node name="MonsterModel" unique_id=66649085 instance=ExtResource("1_koaks")]
+[node name="MonsterModel" unique_id=66649085 node_paths=PackedStringArray("_animationPlayer") instance=ExtResource("1_koaks")]
+script = ExtResource("2_q30se")
+_animationPlayer = NodePath("AnimationPlayer")
 
-[node name="Skeleton3D" parent="metarig" parent_id_path=PackedInt32Array(252280777) index="0" unique_id=311192473]
+[node name="Skeleton3D" parent="metarig" parent_id_path=PackedInt32Array(1927415842) index="0" unique_id=1800821249]
 bones/0/position = Vector3(-0.0016191303, 0.7184815, 0.01981086)
 bones/1/rotation = Quaternion(-0.00024772674, -0.0037998925, -0.06505378, 0.9978745)
 bones/2/rotation = Quaternion(0.0010656009, 0.0034301768, 0.26238075, 0.9649578)

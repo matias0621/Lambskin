@@ -7,9 +7,9 @@ extends CharacterBody3D
 # @export var monster_animation:MonsterAnimation
 # @export var human_model: MonsterAnimation 
 # @export var mask_node:Mask
-@onready var human_model: MonsterAnimation = $Human
-@onready var monster_animation: MonsterAnimation = $Monster
-@onready var mask_node: Mask = $Mask
+@export var human_model: MonsterAnimation
+@export var monster_animation: MonsterAnimation
+@export var mask_node: Mask 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
