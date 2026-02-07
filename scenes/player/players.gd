@@ -7,10 +7,10 @@ extends CharacterBody3D
 @export var human_model: MonsterAnimation
 @export var monster_animation: MonsterAnimation
 @export var mask_node: Mask 
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 var attacking = false
 var can_move: bool = true # New toggle to enable/disable movement
 
@@ -59,9 +59,17 @@ func _process(delta: float) -> void:
 					monster_animation.play_animation(_name_animations.run)
 				else:
 					human_model.play_animation(_name_animations_human.run)
+				
+				# Play footstep sounds only when not already playing
+				audio_stream_player_3d.pitch_scale = randf_range(0.8, 1.2) # Randomize pitch for variety
+				if is_on_floor() and not audio_stream_player_3d.playing:
+					play_sfx(PASOS)
+					
 			else:
 				velocity.x = 0
 				velocity.z = 0
+				if is_on_floor() and audio_stream_player_3d.playing:
+					audio_stream_player_3d.stop()
 				if is_in_group("Monster"):
 					monster_animation.play_animation(_name_animations.idle)
 				else:
