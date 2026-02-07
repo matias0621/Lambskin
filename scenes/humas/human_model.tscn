@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://12si23dp3y63"]
+
+[ext_resource type="PackedScene" uid="uid://fbogxdd5c2lf" path="res://assets/human_model/human_model.glb" id="1_hxier"]
+
+[node name="HumanModel" unique_id=2089924153 instance=ExtResource("1_hxier")]
+
+[node name="GEMA DE REFERENCIA" parent="." index="0" unique_id=1078803548]
+visible = false
+
+[node name="Plane" parent="." index="1" unique_id=1466596814]
+visible = false
+
+[node name="Empty_002" parent="." index="2" unique_id=1602338854]
+visible = false
+
+[node name="Empty_003" parent="." index="3" unique_id=1552090053]
+visible = false
+
+[node name="Empty_004" parent="." index="4" unique_id=348031059]
+visible = false
+
+[node name="metarig" parent="." index="5" unique_id=1076201500]
+visible = false
+
+[node name="Skeleton3D" parent="metarig" index="0" unique_id=1910810330]
+bones/6/rotation = Quaternion(0.037843935, 0.99849945, 0.02334868, -0.031962443)
+bones/13/rotation = Quaternion(-0.027280208, 0.02067043, -0.18800868, 0.98157084)
+bones/15/rotation = Quaternion(-0.037843935, 0.99849945, 0.023348691, 0.031962443)
+
+[node name="Empty" parent="." index="6" unique_id=1436562150]
+visible = false
+
+[node name="Empty_001" parent="." index="7" unique_id=1644753588]
+visible = false
+
+[node name="metarig_001" parent="." index="8" unique_id=13189686]
+transform = Transform3D(2.0199118, 1.7658631e-07, 0, -1.7658631e-07, 2.0199118, 0, 0, 0, -2.0199118, 0.012825489, -2.93656, -0.07007548)
+
+[node name="Skeleton3D" parent="metarig_001" index="1" unique_id=1585818208]
+bones/2/rotation = Quaternion(0.027314702, 1.1916481e-07, 9.768497e-09, 0.99962693)
+bones/7/position = Vector3(0, -0.017451756, 0.05784162)
+bones/7/rotation = Quaternion(0.7900022, 2.923503e-07, 3.7670182e-07, 0.613104)
+bones/8/rotation = Quaternion(0.6437595, -0.0979794, 0.6946511, 0.30566907)
+bones/9/rotation = Quaternion(0.34070826, 0.00018685845, 0.024428848, 0.93985164)
+bones/10/rotation = Quaternion(0.26089227, 0.0028045601, 0.002828062, 0.9653597)
+bones/11/rotation = Quaternion(0.22280796, 0.021548547, 0.063836545, 0.9725314)
+bones/12/rotation = Quaternion(0.576359, -0.34953517, 0.69804066, 0.2416087)
+bones/13/rotation = Quaternion(0.3562223, -0.050052356, -0.116591275, 0.92574674)
+bones/14/rotation = Quaternion(0.17102382, -0.008331263, -0.09725193, 0.9804201)
+bones/15/rotation = Quaternion(0.22658381, -0.011690855, -0.12373359, 0.9660296)
+bones/16/rotation = Quaternion(0.5686359, -0.125176, 0.6465604, 0.4928934)
+bones/17/rotation = Quaternion(0.49847066, 0.023622131, 0.122833304, 0.85783505)
+bones/18/rotation = Quaternion(0.15728502, 0.00960791, 0.07089608, 0.9849583)
+bones/19/rotation = Quaternion(0.20033686, 0.0011854849, 0.042030323, 0.9788244)
+bones/21/rotation = Quaternion(0.013723959, 0.72050977, -0.6537209, 0.23092471)
+bones/22/rotation = Quaternion(-0.64376014, -0.09797908, 0.6946506, -0.3056691)
+bones/23/rotation = Quaternion(0.3407082, -0.00018680643, -0.024428824, 0.93985164)
+bones/24/rotation = Quaternion(0.2608922, -0.00280456, -0.0028280662, 0.96535975)
+bones/25/rotation = Quaternion(0.22280796, -0.021548532, -0.06383653, 0.9725313)
+bones/26/rotation = Quaternion(-0.5763597, -0.349535, 0.69803995, -0.24160928)
+bones/27/rotation = Quaternion(0.3562224, 0.050052267, 0.11659119, 0.92574674)
+bones/28/rotation = Quaternion(0.17102392, 0.008331244, 0.097251914, 0.98042005)
+bones/29/rotation = Quaternion(0.22658387, 0.011690829, 0.12373363, 0.9660295)
+bones/30/rotation = Quaternion(-0.56863636, -0.12517568, 0.64655983, -0.4928936)
+bones/31/rotation = Quaternion(0.49847078, -0.023622047, -0.12283326, 0.857835)
+bones/32/rotation = Quaternion(0.157285, -0.009607922, -0.07089609, 0.9849583)
+bones/33/rotation = Quaternion(0.20033695, -0.0011854798, -0.042030297, 0.9788244)
+bones/35/rotation = Quaternion(0.08815377, -3.69078e-09, -3.6435621e-09, 0.9961069)
+bones/36/rotation = Quaternion(-0.027521249, -2.3340874e-15, 1.2029947e-09, 0.9996213)
+bones/38/rotation = Quaternion(0.088153765, 8.283084e-09, 2.7112386e-09, 0.9961069)
+bones/39/rotation = Quaternion(-0.027521247, -1.4403662e-15, -1.2029876e-09, 0.9996213)
+bones/43/rotation = Quaternion(-0.221553, -0.63125175, -0.47473058, 0.57189703)
+
+[node name="cOLUMNA" parent="." index="9" unique_id=1446851859]
+visible = false
+
+[node name="pUERTA" parent="." index="10" unique_id=1247780494]
+visible = false
+
+[node name="Empty_006" parent="." index="11" unique_id=1207074579]
+visible = false
+
+[node name="Empty_005" parent="." index="12" unique_id=833702662]
+visible = false
+
+[node name="pAREDE" parent="." index="13" unique_id=1943347606]
+visible = false
+
+[node name="Empty_007" parent="." index="14" unique_id=521818878]
+visible = false
+
+[node name="Empty_008" parent="." index="15" unique_id=1173609448]
+visible = false
