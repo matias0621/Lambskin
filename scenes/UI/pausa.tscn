@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://cs6ubupm61ua4"]
 
-[ext_resource type="Script" path="res://scenes/UI/pausa.gd" id="1_qduny"]
-[ext_resource type="FontFile" path="res://celtic-bit.ttf" id="2_mwagl"]
+[ext_resource type="Script" uid="uid://bst0o52vh8gnp" path="res://scenes/UI/pausa.gd" id="1_qduny"]
+[ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="2_4i006"]
+[ext_resource type="FontFile" uid="uid://drk66osvohoaj" path="res://scenes/UI/GotikaOrnament_PERSONAL_USE_ONLY.otf" id="3_4i006"]
+[ext_resource type="Script" uid="uid://c6oloh00iwhus" path="res://scenes/UI/iniciar.gd" id="4_3q215"]
+[ext_resource type="Script" uid="uid://6tu12ejx12wu" path="res://scenes/UI/salir.gd" id="5_qqj8o"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_57xvq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jfxe8"]
 
@@ -16,6 +21,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qduny")
 
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1295561455]
+position = Vector2(576.33936, 321.46588)
+scale = Vector2(-1151.6787, 643.93176)
+mesh = SubResource("BoxMesh_57xvq")
+texture = ExtResource("2_4i006")
+
 [node name="Label" type="Label" parent="." unique_id=856708508]
 layout_mode = 1
 anchors_preset = -1
@@ -28,9 +39,9 @@ offset_top = -70.280014
 offset_right = 367.0
 offset_bottom = 37.719986
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_mwagl")
-theme_override_font_sizes/font_size = 66
-text = "PAUSA"
+theme_override_fonts/font = ExtResource("3_4i006")
+theme_override_font_sizes/font_size = 80
+text = "PAUSE_TITLE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -40,10 +51,12 @@ offset_left = 425.0
 offset_top = 272.0
 offset_right = 740.0
 offset_bottom = 322.0
-theme_override_fonts/font = ExtResource("2_mwagl")
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("3_4i006")
+theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_jfxe8")
-text = "CONTINUAR"
+text = "CONTINUE_BUTTON"
+icon_alignment = 1
+script = ExtResource("4_3q215")
 
 [node name="Salir" type="Button" parent="." unique_id=146637340]
 layout_mode = 1
@@ -58,7 +71,12 @@ offset_right = 104.0
 offset_bottom = 93.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_mwagl")
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("3_4i006")
+theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_x3a2t")
-text = "SALIR"
+text = "EXIT_BUTTON"
+icon_alignment = 1
+script = ExtResource("5_qqj8o")
+
+[connection signal="pressed" from="Continuar" to="Continuar" method="_on_pressed"]
+[connection signal="pressed" from="Salir" to="Salir" method="_on_pressed"]

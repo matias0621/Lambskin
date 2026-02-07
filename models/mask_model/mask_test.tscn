@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dv2ani1ned5e5"]
+
+[ext_resource type="PackedScene" uid="uid://e7416o8wileo" path="res://test/mask_test.glb" id="1_jcyal"]
+
+[node name="mask_test" unique_id=1538147156 instance=ExtResource("1_jcyal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.437147, -0.8330748, 0)
+
+[node name="Skeleton3D" parent="metarig_001" parent_id_path=PackedInt32Array(462671015) index="0" unique_id=1513768028]
+bones/2/rotation = Quaternion(0.027314702, 1.1916481e-07, 9.768497e-09, 0.99962693)
+bones/23/rotation = Quaternion(0.34070832, -0.00018680972, -0.024428833, 0.93985164)
+bones/27/rotation = Quaternion(0.35622245, 0.050052278, 0.116591185, 0.92574674)
+bones/35/rotation = Quaternion(0.08815377, -3.69078e-09, -3.6435621e-09, 0.9961069)
+bones/36/rotation = Quaternion(-0.027521249, -2.3340874e-15, 1.2029947e-09, 0.9996213)
+bones/38/rotation = Quaternion(0.088153765, 8.283084e-09, 2.7112386e-09, 0.9961069)
+bones/39/rotation = Quaternion(-0.027521247, -1.4403662e-15, -1.2029876e-09, 0.9996213)
+bones/43/rotation = Quaternion(-0.221553, -0.63125175, -0.47473058, 0.57189703)
+
+[node name="Cube_001" parent="metarig_001/Skeleton3D" index="16" unique_id=767478158]
+visible = false
+
+[node name="Cube_003" parent="metarig_001/Skeleton3D" index="17" unique_id=1970455777]
+visible = false

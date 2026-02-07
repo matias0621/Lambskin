@@ -4,16 +4,15 @@ extends CharacterBody3D
 @export var speed:float = 10
 @export var acceleration:float = 20
 @export var device_id:int = -1
-@export var monster_animation:MonsterAnimation
-@export var human_model: MonsterAnimation 
-@export var mask_node:Mask
+@export var human_model: MonsterAnimation
+@export var monster_animation: MonsterAnimation
+@export var mask_node: Mask 
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 var attacking = false
-
-
+var can_move: bool = true # New toggle to enable/disable movement
 
 const BAAAAA = preload("uid://b5hfraugwaaer")
 const CLICK = preload("uid://dmshxdxcen5pm")
@@ -29,9 +28,10 @@ var is_stunning := false
 
 func _ready() -> void:
 	print(device_id)
+	add_to_group("Player")
+	mask_node.visible = false
 
 func _process(delta: float) -> void:
-	
 	if MultiplayerInput.is_action_just_pressed(-1,"a"):
 		set_as_human()
 	if MultiplayerInput.is_action_just_pressed(-1,"b"):
@@ -48,7 +48,6 @@ func _process(delta: float) -> void:
 			human_model.play_animation(_name_animations_human.attack)
 			_throw_mask()
 		
-		
 		if not attacking:
 			if input_dir != Vector2.ZERO:
 				velocity.x = lerp(velocity.x, input_dir.x * speed, acceleration * delta)
@@ -60,9 +59,17 @@ func _process(delta: float) -> void:
 					monster_animation.play_animation(_name_animations.run)
 				else:
 					human_model.play_animation(_name_animations_human.run)
+				
+				# Play footstep sounds only when not already playing
+				audio_stream_player_3d.pitch_scale = randf_range(0.8, 1.2) # Randomize pitch for variety
+				if is_on_floor() and not audio_stream_player_3d.playing:
+					play_sfx(PASOS)
+					
 			else:
 				velocity.x = 0
 				velocity.z = 0
+				if is_on_floor() and audio_stream_player_3d.playing:
+					audio_stream_player_3d.stop()
 				if is_in_group("Monster"):
 					monster_animation.play_animation(_name_animations.idle)
 				else:
@@ -71,9 +78,20 @@ func _process(delta: float) -> void:
 		velocity.x = 0
 		velocity.z = 0
 	
-	move_and_slide()
+	# If we are in the lobby, just play the idle animation and stop here
+	if not can_move:
+		velocity.x = 0
+		velocity.z = 0
+		# Check for groups to play the right idle
+		if is_in_group("Monster"):
+			monster_animation.play_animation(_name_animations.idle)
+		else:
+			human_model.play_animation(_name_animations_human.idle)
+		
+		move_and_slide() # Allow them to fall to the floor
+		return # STOP HERE during lobby
 	
-
+	move_and_slide()
 
 func start_stun() -> void:
 
@@ -151,7 +169,7 @@ func set_as_human():
 	play_sfx(BAAAAA)
 	add_to_group("Human")
 	remove_from_group("Monster")
-	mask_node.show()
+	#mask_node.show()
 	human_model.show()
 	monster_animation.hide()
 

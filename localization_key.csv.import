@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b82lw1tk5l5cd"
+
+[deps]
+
+files=["res://localization_key.es.translation", "res://localization_key.en.translation"]
+
+source_file="res://localization_key.csv"
+dest_files=["res://localization_key.es.translation", "res://localization_key.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
