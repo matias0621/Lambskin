@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://iljlp2aml5an" path="res://scenes/player/players.gd" id="1_gmlin"]
 [ext_resource type="PackedScene" uid="uid://d2k43qteblc0q" path="res://models/monster/monster_model.tscn" id="2_lvxji"]
-[ext_resource type="PackedScene" uid="uid://dv2ani1ned5e5" path="res://models/mask_model/mask_test.tscn" id="4_75vfm"]
 [ext_resource type="PackedScene" uid="uid://12si23dp3y63" path="res://scenes/humas/human_model.tscn" id="4_lvxji"]
+[ext_resource type="PackedScene" uid="uid://br8knjy0cqlad" path="res://scenes/mask/mask.tscn" id="4_p47bc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_75vfm"]
 radius = 1.125
@@ -13,7 +13,7 @@ height = 4.0
 script = ExtResource("1_gmlin")
 human_model = NodePath("HumanModel")
 monster_animation = NodePath("MonsterModel")
-mask_node = NodePath("mask_test")
+mask_node = NodePath("Mask")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=358418221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.6809733)
@@ -23,11 +23,10 @@ shape = SubResource("CapsuleShape3D_75vfm")
 
 [node name="MonsterModel" parent="." unique_id=66649085 instance=ExtResource("2_lvxji")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8627193, -1.0493997)
-visible = false
-
-[node name="mask_test" parent="." unique_id=1538147156 node_paths=PackedStringArray("player") instance=ExtResource("4_75vfm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.476515, 1.8050511, -1.6363602)
-player = NodePath("..")
 
 [node name="HumanModel" parent="." unique_id=527842550 instance=ExtResource("4_lvxji")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15485668, 1.8559926, -3.863202)
+
+[node name="Mask" parent="." unique_id=1720092688 node_paths=PackedStringArray("player") instance=ExtResource("4_p47bc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6693559, -1.6368592)
+player = NodePath("..")

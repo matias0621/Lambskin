@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://dv2ani1ned5e5"]
 
 [ext_resource type="PackedScene" uid="uid://e7416o8wileo" path="res://test/mask_test.glb" id="1_jcyal"]
-[ext_resource type="Script" uid="uid://d7mc8jju13ep" path="res://scenes/mask/mask.gd" id="2_jhww2"]
 
 [node name="mask_test" unique_id=1538147156 instance=ExtResource("1_jcyal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.437147, -0.8330748, 0)
-script = ExtResource("2_jhww2")
 
 [node name="Skeleton3D" parent="metarig_001" parent_id_path=PackedInt32Array(462671015) index="0" unique_id=1513768028]
 bones/2/rotation = Quaternion(0.027314702, 1.1916481e-07, 9.768497e-09, 0.99962693)

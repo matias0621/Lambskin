@@ -4,9 +4,6 @@ extends CharacterBody3D
 @export var speed:float = 10
 @export var acceleration:float = 20
 @export var device_id:int = -1
-# @export var monster_animation:MonsterAnimation
-# @export var human_model: MonsterAnimation 
-# @export var mask_node:Mask
 @export var human_model: MonsterAnimation
 @export var monster_animation: MonsterAnimation
 @export var mask_node: Mask 
@@ -15,7 +12,7 @@ var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
 @onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 var attacking = false
-var can_move: bool = false # New toggle to enable/disable movement
+var can_move: bool = true # New toggle to enable/disable movement
 
 const BAAAAA = preload("uid://b5hfraugwaaer")
 const CLICK = preload("uid://dmshxdxcen5pm")
@@ -32,6 +29,7 @@ var is_stunning := false
 func _ready() -> void:
 	print(device_id)
 	add_to_group("Player")
+	mask_node.visible = false
 
 func _process(delta: float) -> void:
 	if MultiplayerInput.is_action_just_pressed(-1,"a"):
@@ -49,7 +47,6 @@ func _process(delta: float) -> void:
 			attacking = true
 			human_model.play_animation(_name_animations_human.attack)
 			_throw_mask()
-		
 		
 		if not attacking:
 			if input_dir != Vector2.ZERO:
@@ -164,7 +161,7 @@ func set_as_human():
 	play_sfx(BAAAAA)
 	add_to_group("Human")
 	remove_from_group("Monster")
-	mask_node.show()
+	#mask_node.show()
 	human_model.show()
 	monster_animation.hide()
 
