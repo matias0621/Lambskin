@@ -4,16 +4,18 @@ extends CharacterBody3D
 @export var speed:float = 10
 @export var acceleration:float = 20
 @export var device_id:int = -1
-@export var monster_animation:MonsterAnimation
-@export var human_model: MonsterAnimation 
-@export var mask_node:Mask
+# @export var monster_animation:MonsterAnimation
+# @export var human_model: MonsterAnimation 
+# @export var mask_node:Mask
+@onready var human_model: MonsterAnimation = $Human
+@onready var monster_animation: MonsterAnimation = $Monster
+@onready var mask_node: Mask = $Mask
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
 @onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 var attacking = false
-
-
+var can_move: bool = false # New toggle to enable/disable movement
 
 const BAAAAA = preload("uid://b5hfraugwaaer")
 const CLICK = preload("uid://dmshxdxcen5pm")
@@ -29,9 +31,9 @@ var is_stunning := false
 
 func _ready() -> void:
 	print(device_id)
+	add_to_group("Player")
 
 func _process(delta: float) -> void:
-	
 	if MultiplayerInput.is_action_just_pressed(-1,"a"):
 		set_as_human()
 	if MultiplayerInput.is_action_just_pressed(-1,"b"):
@@ -71,9 +73,20 @@ func _process(delta: float) -> void:
 		velocity.x = 0
 		velocity.z = 0
 	
-	move_and_slide()
+	# If we are in the lobby, just play the idle animation and stop here
+	if not can_move:
+		velocity.x = 0
+		velocity.z = 0
+		# Check for groups to play the right idle
+		if is_in_group("Monster"):
+			monster_animation.play_animation(_name_animations.idle)
+		else:
+			human_model.play_animation(_name_animations_human.idle)
+		
+		move_and_slide() # Allow them to fall to the floor
+		return # STOP HERE during lobby
 	
-
+	move_and_slide()
 
 func start_stun() -> void:
 

@@ -2,19 +2,18 @@
 
 [ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://stage/PILAR .fbx" id="1_hmyw1"]
 [ext_resource type="Texture2D" uid="uid://cs6sdm88rmoxl" path="res://stage/piso.png" id="2_hvea7"]
-[ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="3_2t5fa"]
 [ext_resource type="PackedScene" uid="uid://cyac8urm1xiu5" path="res://stage/pARED.fbx" id="3_hmyw1"]
 [ext_resource type="PackedScene" uid="uid://cbn8q441nfpkb" path="res://stage/PEURTA.fbx" id="4_kjxda"]
 [ext_resource type="PackedScene" uid="uid://vo0hk7mmfl85" path="res://scenes/player/player.tscn" id="6_ma121"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ma121"]
-albedo_texture = ExtResource("2_hvea7")
+[sub_resource type="BoxMesh" id="BoxMesh_hvea7"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaxcd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hvea7"]
 albedo_texture = ExtResource("2_hvea7")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5eif6"]
-albedo_texture = ExtResource("3_2t5fa")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 150.0
+uv2_triplanar = true
+uv2_triplanar_sharpness = 150.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_e3tdq"]
 dof_blur_near_enabled = true
@@ -42,16 +41,10 @@ transform = Transform3D(-0.12905258, 0, -4.9983344, 0, 5, 0, 4.9983344, 0, -0.12
 [node name="PILAR 5" parent="." unique_id=693011966 instance=ExtResource("1_hmyw1")]
 transform = Transform3D(-0.12905258, 0, -4.9983344, 0, 5, 0, 4.9983344, 0, -0.12905258, -11.300083, 14.123216, 59.350327)
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=778007793]
-transform = Transform3D(1, 0, 0, 0, -0.028706757, -0.9995879, 0, 0.9995879, -0.028706757, 46.230892, 2.3205032, 71.08407)
-material_override = SubResource("StandardMaterial3D_ma121")
-polygon = PackedVector2Array(-65.45918, -7.228264, -42.807064, 19.597305, 9.084316, 19.597305, 33.869465, -7.7977066)
-material = SubResource("StandardMaterial3D_jaxcd")
-
-[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="CSGPolygon3D" unique_id=1858320576]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0.0004364252, 0, -0.0004364252, 0.99999994, -0.08744812, 0.15124512, -0.08783388)
-polygon = PackedVector2Array(35.363102, -41.072105, -64.995316, -40.264584, -65.29111, -6.9308224, 33.90015, -7.706978)
-material = SubResource("StandardMaterial3D_5eif6")
+[node name="CSGMesh3D" type="CSGMesh3D" parent="." unique_id=885796331]
+transform = Transform3D(100, 0, 0, 0, 2, 0, 0, 0, 75, 31.828121, 2.0636559, 59.84793)
+mesh = SubResource("BoxMesh_hvea7")
+material = SubResource("StandardMaterial3D_hvea7")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=749888428]
 transform = Transform3D(-0.9999944, 0.0026740644, -0.00201968, -6.976195e-08, 0.6026789, 0.7979838, 0.0033510786, 0.79797935, -0.6026755, 31.442455, 48.81959, 21.709389)

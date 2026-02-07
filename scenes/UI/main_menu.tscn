@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://b3nhjrng4qjc4" path="res://scenes/UI/main_menu.gd" id="1_yonvy"]
 [ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="2_tfcbk"]
 [ext_resource type="FontFile" uid="uid://drk66osvohoaj" path="res://scenes/UI/GotikaOrnament_PERSONAL_USE_ONLY.otf" id="3_e2p27"]
-[ext_resource type="Script" path="res://scenes/UI/iniciar.gd" id="4_e2p27"]
+[ext_resource type="Script" uid="uid://c6oloh00iwhus" path="res://scenes/UI/iniciar.gd" id="4_e2p27"]
 [ext_resource type="Script" uid="uid://chsy8d62b3m6v" path="res://scenes/UI/opciones.gd" id="5_bm8t2"]
-[ext_resource type="Script" path="res://scenes/UI/salir.gd" id="5_ngj32"]
+[ext_resource type="Script" uid="uid://6tu12ejx12wu" path="res://scenes/UI/salir.gd" id="5_ngj32"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_e2p27"]
 
@@ -54,6 +54,8 @@ offset_left = 460.0
 offset_top = 321.0
 offset_right = 689.0
 offset_bottom = 387.0
+theme_override_colors/font_outline_color = Color(0.17746419, 0.06680426, 0.35045722, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_e2p27")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_58fj5")
