@@ -8,11 +8,14 @@ extends CharacterBody3D
 @export var monster_animation: MonsterAnimation
 @export var mask_node: Mask 
 @export var audio_stream_player_3d: AudioStreamPlayer3D
+@export var inmune_time: float = 5.0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
 var attacking = false
 var can_move: bool = true # New toggle to enable/disable movement
+var inmune = false
+var inmune_timer = 0.0
 
 const BAAAAA = preload("uid://b5hfraugwaaer")
 const CLICK = preload("uid://dmshxdxcen5pm")
@@ -25,6 +28,7 @@ const TICTAC = preload("uid://c6fopqy82f6nm")
 var is_mask_thrown: bool = false
 var stun = false
 var is_stunning := false
+
 
 func _ready() -> void:
 	print(device_id)
@@ -39,6 +43,12 @@ func _process(delta: float) -> void:
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	
+	if inmune:
+		inmune_timer += delta
+		if inmune_timer >= inmune_time:
+			inmune = false
+			inmune_timer = 0.0
 	
 	if not stun:
 		var input_dir = MultiplayerInput.get_vector(device_id ,"player_right", "player_left", "player_down", "player_up")
