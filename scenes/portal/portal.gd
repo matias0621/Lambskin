@@ -24,6 +24,10 @@ func _process(delta: float) -> void:
         is_a_monster = false
         player.can_move = true
         player = null
+        time = 0
+        mesh_of_portal.texture = list_of_mask[0]
+        i = 1
+        return
 
 
     
