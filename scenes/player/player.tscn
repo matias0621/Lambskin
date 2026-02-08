@@ -1,32 +1,63 @@
 [gd_scene format=3 uid="uid://vo0hk7mmfl85"]
 
 [ext_resource type="Script" uid="uid://iljlp2aml5an" path="res://scenes/player/players.gd" id="1_gmlin"]
-[ext_resource type="PackedScene" uid="uid://c2ab7u2postu8" path="res://assets/human_model/human.tscn" id="2_lvxji"]
-[ext_resource type="PackedScene" uid="uid://cjccwuqje7chc" path="res://assets/monster_model/monster.tscn" id="3_p47bc"]
-[ext_resource type="PackedScene" uid="uid://br8knjy0cqlad" path="res://scenes/mask/mask.tscn" id="4_lvxji"]
+[ext_resource type="PackedScene" uid="uid://d2k43qteblc0q" path="res://models/monster/monster_model.tscn" id="2_lvxji"]
+[ext_resource type="PackedScene" uid="uid://12si23dp3y63" path="res://scenes/humas/human_model.tscn" id="4_lvxji"]
+[ext_resource type="PackedScene" uid="uid://br8knjy0cqlad" path="res://scenes/mask/mask.tscn" id="4_p47bc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_75vfm"]
 radius = 1.125
 height = 4.0
 
-[node name="Player" type="CharacterBody3D" unique_id=2023949539 node_paths=PackedStringArray("monster_animation", "human_model", "mask_node")]
+[node name="Player" type="CharacterBody3D" unique_id=2023949539 node_paths=PackedStringArray("human_model", "monster_animation", "mask_node", "audio_stream_player_3d")]
 script = ExtResource("1_gmlin")
-monster_animation = NodePath("Monster")
-human_model = NodePath("Human")
+human_model = NodePath("HumanModel")
+monster_animation = NodePath("MonsterModel")
 mask_node = NodePath("Mask")
-
-[node name="Human" parent="." unique_id=1301032794 instance=ExtResource("2_lvxji")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.243959, 1.4505353, 0)
-
-[node name="Monster" parent="." unique_id=719537428 instance=ExtResource("3_p47bc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5988147, 0)
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=358418221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.6809733)
 shape = SubResource("CapsuleShape3D_75vfm")
 
-[node name="Mask" parent="." unique_id=1720092688 node_paths=PackedStringArray("player") instance=ExtResource("4_lvxji")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4184656, -3.3739157)
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=417480344]
+unit_size = 100.0
+
+[node name="MonsterModel" parent="." unique_id=66649085 instance=ExtResource("2_lvxji")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8627193, -1.0493997)
+visible = false
+
+[node name="HumanModel" parent="." unique_id=527842550 instance=ExtResource("4_lvxji")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15485668, 1.8559926, -3.863202)
+
+[node name="Skeleton3D" parent="HumanModel/metarig_001" parent_id_path=PackedInt32Array(527842550, 1014496228) index="0" unique_id=96781220]
+bones/0/position = Vector3(-2.2111971e-08, 0.38015297, -0.05487742)
+bones/0/rotation = Quaternion(-0.064929135, 0.04142914, 0.002697952, 0.9970259)
+bones/1/rotation = Quaternion(0.17525135, 0.10483135, -0.0048787496, 0.9789145)
+bones/2/rotation = Quaternion(0.083881654, 0.09560148, -0.01566779, 0.99175537)
+bones/3/rotation = Quaternion(0.014743244, -0.0016630199, -2.4529538e-05, 0.9998899)
+bones/4/rotation = Quaternion(-0.03367395, 0.03574607, 0.04351695, 0.997845)
+bones/5/rotation = Quaternion(-0.11895488, 0.102831714, -0.013614539, 0.9874665)
+bones/34/position = Vector3(-0.4805806, 0.10320146, 0.044936337)
+bones/34/rotation = Quaternion(0.027499732, 0.7804907, 0.24566406, 0.5742187)
+bones/35/rotation = Quaternion(0.7116607, 0.21601047, -0.5037349, 0.43946525)
+bones/36/rotation = Quaternion(0.3046273, -0.37789693, 0.18504639, 0.8544905)
+bones/37/position = Vector3(0.4469584, 0.19586787, -0.029933415)
+bones/37/rotation = Quaternion(0.4493352, -0.39337024, -0.5782316, 0.5558831)
+bones/38/rotation = Quaternion(0.33482844, 0.055738725, 0.22920243, 0.91227704)
+bones/39/rotation = Quaternion(0.037674014, -0.112578206, 0.02918528, 0.9924995)
+bones/40/rotation = Quaternion(-0.18513122, 0.65443707, 0.41981357, 0.6009951)
+bones/41/position = Vector3(-0.29043818, 0.0072958153, 0.060835812)
+bones/41/rotation = Quaternion(0.865876, -0.18012694, 0.047165077, 0.46431503)
+bones/42/rotation = Quaternion(0.23174688, 0.009804149, -0.059303217, 0.9709173)
+bones/43/position = Vector3(6.2834724e-09, -5.695567e-08, -4.5609494e-09)
+bones/43/rotation = Quaternion(-0.25347966, -0.6021242, -0.5056781, 0.56345737)
+bones/44/position = Vector3(0.29043823, 0.019335896, -0.031212397)
+bones/44/rotation = Quaternion(0.8917612, 0.16356786, 0.04588591, -0.41940692)
+bones/45/rotation = Quaternion(0.3445092, 0.0030055693, 0.04338356, 0.93777514)
+
+[node name="Mask" parent="." unique_id=1720092688 node_paths=PackedStringArray("player") instance=ExtResource("4_p47bc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6693559, -1.6368592)
 player = NodePath("..")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=417480344]
+[editable path="HumanModel"]

@@ -94,3 +94,6 @@ visible = false
 
 [node name="Empty_008" parent="." index="17" unique_id=196806003]
 visible = false
+
+[node name="assets" parent="." index="19" unique_id=1550330212 instance=ExtResource("1_wkgkj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.490102, 0, 6.938751)

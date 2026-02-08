@@ -25,9 +25,9 @@ func throw(direction):
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	if body.is_in_group("Monster") and body.stun and player.attacking:
+	if body.is_in_group("Monster") and body.stun and player.attacking and not player.inmune:
 		body.set_as_human()
 		player.set_as_monster()
-	elif body.is_in_group("Monster") and randf() < 0.4 and player.attacking:
+	elif body.is_in_group("Monster") and randf() < 0.4 and player.attacking and not player.inmune:
 		body.set_as_human()
 		player.set_as_monster()
