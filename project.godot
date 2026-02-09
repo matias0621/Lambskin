@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Lambskin"
+run/main_scene="uid://7jfpe78ee1i"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -26,6 +27,8 @@ enabled=PackedStringArray("res://addons/multiplayer_input/plugin.cfg")
 [global_group]
 
 Player=""
+monster=""
+human=""
 
 [input]
 

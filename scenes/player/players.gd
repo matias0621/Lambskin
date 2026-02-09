@@ -65,7 +65,7 @@ func _process(delta: float) -> void:
 				var dir_3d = Vector3(input_dir.x, 0, input_dir.y).normalized()
 				var target_rotation = atan2(dir_3d.x, dir_3d.z) + PI
 				rotation.y = lerp_angle(rotation.y, target_rotation, 8 * delta) 
-				if is_in_group("Monster"):
+				if is_in_group("monster"):
 					monster_animation.play_animation(_name_animations.run)
 				else:
 					human_model.play_animation(_name_animations_human.run)
@@ -80,7 +80,7 @@ func _process(delta: float) -> void:
 				velocity.z = 0
 				if is_on_floor() and audio_stream_player_3d.playing:
 					audio_stream_player_3d.stop()
-				if is_in_group("Monster"):
+				if is_in_group("monster"):
 					monster_animation.play_animation(_name_animations.idle)
 				else:
 					human_model.play_animation(_name_animations_human.idle)
@@ -93,7 +93,7 @@ func _process(delta: float) -> void:
 		velocity.x = 0
 		velocity.z = 0
 		# Check for groups to play the right idle
-		if is_in_group("Monster"):
+		if is_in_group("monster"):
 			monster_animation.play_animation(_name_animations.idle)
 		else:
 			human_model.play_animation(_name_animations_human.idle)
@@ -177,15 +177,15 @@ func _return_mask():
 
 func set_as_human():
 	play_sfx(BAAAAA)
-	add_to_group("Human")
-	remove_from_group("Monster")
+	add_to_group("human")
+	remove_from_group("monster")
 	#mask_node.show()
 	human_model.show()
 	monster_animation.hide()
 
 func set_as_monster():
-	add_to_group("Monster")
-	remove_from_group("Human")
+	add_to_group("monster")
+	remove_from_group("human")
 	mask_node.hide()
 	human_model.hide()
 	monster_animation.show()

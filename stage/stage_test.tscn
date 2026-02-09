@@ -48,7 +48,7 @@ mesh = SubResource("BoxMesh_hvea7")
 material = SubResource("StandardMaterial3D_hvea7")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=749888428]
-transform = Transform3D(-0.9999944, 0.0026740644, -0.00201968, -6.976195e-08, 0.6026789, 0.7979838, 0.0033510786, 0.79797935, -0.6026755, 31.442455, 48.81959, 21.709389)
+transform = Transform3D(-0.99999446, 0.0026740658, -0.0020196799, -0.0019442276, 0.027924474, 0.99960816, 0.0027294164, 0.9996065, -0.027919117, 59.906765, 14.089359, 53.31213)
 attributes = SubResource("CameraAttributesPractical_e3tdq")
 fov = 72.386406
 
