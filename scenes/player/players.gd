@@ -13,7 +13,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
 var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
 var attacking = false
-var can_move: bool = false # New toggle to enable/disable movement
+var can_move: bool = true # New toggle to enable/disable movement
 var inmune = false
 var inmune_timer = 0.0
 

@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 
 MultiplayerInput="*uid://bni55tg4jyd5y"
 GameManager="*uid://bm56wx0pu461m"
+Global="*uid://tb72n4rv3bc8"
 
 [editor_plugins]
 

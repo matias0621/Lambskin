@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://7hq1hpe7ye28"]
+
+[ext_resource type="PackedScene" uid="uid://7jfpe78ee1i" path="res://scenes/lobby/lobby.tscn" id="1_6tedd"]
+[ext_resource type="Script" uid="uid://bbjneq6hn2jl0" path="res://scenes/victory/victory.gd" id="2_esff4"]
+
+[node name="Victory" type="Node3D" unique_id=1898453780]
+
+[node name="Stage" parent="." unique_id=1616479636 instance=ExtResource("1_6tedd")]
+script = ExtResource("2_esff4")

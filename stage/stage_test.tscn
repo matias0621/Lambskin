@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://cmfcivfnpi6rm"]
 
 [ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://stage/PILAR .fbx" id="1_hmyw1"]
+[ext_resource type="Script" uid="uid://de5ufb7a8y0w1" path="res://stage/stage_test.gd" id="1_wh4hx"]
 [ext_resource type="Texture2D" uid="uid://cs6sdm88rmoxl" path="res://stage/piso.png" id="2_hvea7"]
 [ext_resource type="PackedScene" uid="uid://cyac8urm1xiu5" path="res://stage/pARED.fbx" id="3_hmyw1"]
 [ext_resource type="PackedScene" uid="uid://cbn8q441nfpkb" path="res://stage/PEURTA.fbx" id="4_kjxda"]
-[ext_resource type="PackedScene" uid="uid://vo0hk7mmfl85" path="res://scenes/player/player.tscn" id="6_ma121"]
 [ext_resource type="PackedScene" uid="uid://bvrtnuc8i67ir" path="res://scenes/portal/portal.tscn" id="6_wh4hx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hvea7"]
@@ -29,6 +29,7 @@ albedo_color = Color(0, 0, 0, 1)
 size = Vector3(19.80658, 4.67688, 90.89325)
 
 [node name="StageTest" type="Node3D" unique_id=1883947109]
+script = ExtResource("1_wh4hx")
 
 [node name="PILAR 2" parent="." unique_id=1893382299 instance=ExtResource("1_hmyw1")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 6.677882, 12.511626, 87.225334)
@@ -139,9 +140,6 @@ transform = Transform3D(-5.0126808e-05, -0.0076791495, -0.9999705, -0.9999786, 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D8" unique_id=217355535]
 transform = Transform3D(1, -1.7229468e-08, 0, 1.7229468e-08, 1, 0, -2.5465852e-11, -1.7229468e-08, 1, 0.4774475, 5.6986504, 44.946632)
 shape = SubResource("BoxShape3D_ma121")
-
-[node name="Player" parent="." unique_id=2023949539 instance=ExtResource("6_ma121")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.264166, 7.0711546, 53.880253)
 
 [node name="Portal" parent="." unique_id=1418581597 instance=ExtResource("6_wh4hx")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 61.895546, 3.2590637, 50.36282)
