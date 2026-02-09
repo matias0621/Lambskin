@@ -2,6 +2,7 @@ class_name MonsterAnimation
 extends Node3D
 
 @export var _animationPlayer:AnimationPlayer
+@export var shader_monster: ShaderMaterial
 signal animation_finished
 
 func _ready() -> void:
@@ -23,3 +24,6 @@ func play_animation(animation: String, _loop = false):
 
 func _on_animation_finished(anim_name: String):
 	emit_signal("animation_finished", anim_name)
+
+func get_shader() -> ShaderMaterial:
+	return shader_monster

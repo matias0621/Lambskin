@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cmfcivfnpi6rm"]
+[gd_scene format=3 uid="uid://orbb4vb5fr8y"]
 
 [ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://stage/PILAR .fbx" id="1_hmyw1"]
 [ext_resource type="Script" uid="uid://de5ufb7a8y0w1" path="res://stage/stage_test.gd" id="1_wh4hx"]
@@ -49,7 +49,7 @@ mesh = SubResource("BoxMesh_hvea7")
 material = SubResource("StandardMaterial3D_hvea7")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=749888428]
-transform = Transform3D(-0.9999944, 0.0026740653, -0.00201968, 0.0013789013, 0.8776552, 0.47929063, 0.003054237, 0.47928515, -0.87765396, 35.46849, 26.927643, 21.013474)
+transform = Transform3D(-0.9999944, 0.0026740644, -0.00201968, -6.976195e-08, 0.6026789, 0.7979838, 0.0033510786, 0.79797935, -0.6026755, 31.442455, 48.81959, 21.709389)
 attributes = SubResource("CameraAttributesPractical_e3tdq")
 fov = 72.386406
 
@@ -140,13 +140,6 @@ transform = Transform3D(-5.0126808e-05, -0.0076791495, -0.9999705, -0.9999786, 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D8" unique_id=217355535]
 transform = Transform3D(1, -1.7229468e-08, 0, 1.7229468e-08, 1, 0, -2.5465852e-11, -1.7229468e-08, 1, 0.4774475, 5.6986504, 44.946632)
 shape = SubResource("BoxShape3D_ma121")
-
-[node name="Player" parent="." unique_id=2023949539 instance=ExtResource("6_ma121")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.58815, 7.0711546, 53.880253)
-speed = 10.0
-acceleration = 20.0
-device_id = -1
-inmune_time = 5.0
 
 [node name="Portal" parent="." unique_id=1418581597 instance=ExtResource("6_wh4hx")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 61.895546, 3.2590637, 50.36282)

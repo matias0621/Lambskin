@@ -11,13 +11,16 @@ config_version=5
 [application]
 
 config/name="Lambskin"
+run/main_scene="uid://b61gacvv1qs15"
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.svg"
 
 [autoload]
 
 MultiplayerInput="*uid://bni55tg4jyd5y"
 GameManager="*uid://bm56wx0pu461m"
+Global="*uid://tb72n4rv3bc8"
 
 [editor_plugins]
 
@@ -26,6 +29,8 @@ enabled=PackedStringArray("res://addons/multiplayer_input/plugin.cfg")
 [global_group]
 
 Player=""
+monster=""
+human=""
 
 [input]
 
