@@ -63,6 +63,7 @@ func _process(delta: float) -> void:
 			i = 0
 			player.inmune = true
 			player.can_move = true
+			self.queue_free() # Remove the portal from the scene after the sequence is complete
 	
 
 func _on_monster_exit(body: Node) -> void:

@@ -2,17 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://diuehysq1ak6x" path="res://test/test_monster.glb" id="1_koaks"]
 [ext_resource type="Script" uid="uid://cmyojxye2643r" path="res://scenes/player/animations.gd" id="2_q30se"]
-[ext_resource type="Shader" uid="uid://crs70yrq0ntyf" path="res://models/monster/outline.gdshader" id="3_iptbx"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iptbx"]
-render_priority = 0
-shader = ExtResource("3_iptbx")
-shader_parameter/outline_color = Color(1, 0.1171875, 0.1171875, 1)
-shader_parameter/outline_width = 3.4699999999999998
+[ext_resource type="Material" uid="uid://bgifbobb52kpk" path="res://test/new_shader_material.tres" id="3_iptbx"]
 
 [node name="MonsterModel" unique_id=66649085 node_paths=PackedStringArray("_animationPlayer") instance=ExtResource("1_koaks")]
 script = ExtResource("2_q30se")
 _animationPlayer = NodePath("AnimationPlayer")
+shader_monster = ExtResource("3_iptbx")
 
 [node name="Skeleton3D" parent="metarig" parent_id_path=PackedInt32Array(1927415842) index="0" unique_id=1800821249]
 bones/0/position = Vector3(-0.0016191303, 0.7184815, 0.01981086)
@@ -55,4 +50,4 @@ bones/28/rotation = Quaternion(-0.17608391, -0.003709078, -0.028432144, 0.983957
 
 [node name="Cube" parent="metarig/Skeleton3D" index="0" unique_id=746885553]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-material_overlay = SubResource("ShaderMaterial_iptbx")
+surface_material_override/0 = ExtResource("3_iptbx")

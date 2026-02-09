@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bgifbobb52kpk"]
+
+[ext_resource type="Shader" uid="uid://ryxkrg3jtgl3" path="res://models/shine_material.gdshader" id="1_6wlq5"]
+[ext_resource type="Texture2D" uid="uid://c2t21aj020o58" path="res://test/test_monster_textura-mounstruo lista.png" id="2_ep4at"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_6wlq5")
+shader_parameter/texture_albedo = ExtResource("2_ep4at")
+shader_parameter/shine_intensity = 0.0
+shader_parameter/shine_color = Color(1, 1, 1, 1)
+shader_parameter/shine_speed = 5.0000002375

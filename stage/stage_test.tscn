@@ -48,7 +48,7 @@ mesh = SubResource("BoxMesh_hvea7")
 material = SubResource("StandardMaterial3D_hvea7")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=749888428]
-transform = Transform3D(-0.99999446, 0.0026740658, -0.0020196799, -0.0019442276, 0.027924474, 0.99960816, 0.0027294164, 0.9996065, -0.027919117, 59.906765, 14.089359, 53.31213)
+transform = Transform3D(-0.9999944, 0.0026740653, -0.00201968, 0.0013789013, 0.8776552, 0.47929063, 0.003054237, 0.47928515, -0.87765396, 35.46849, 26.927643, 21.013474)
 attributes = SubResource("CameraAttributesPractical_e3tdq")
 fov = 72.386406
 
@@ -141,7 +141,11 @@ transform = Transform3D(1, -1.7229468e-08, 0, 1.7229468e-08, 1, 0, -2.5465852e-1
 shape = SubResource("BoxShape3D_ma121")
 
 [node name="Player" parent="." unique_id=2023949539 instance=ExtResource("6_ma121")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.264166, 7.0711546, 53.880253)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.58815, 7.0711546, 53.880253)
+speed = 10.0
+acceleration = 20.0
+device_id = -1
+inmune_time = 5.0
 
 [node name="Portal" parent="." unique_id=1418581597 instance=ExtResource("6_wh4hx")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 61.895546, 3.2590637, 50.36282)
