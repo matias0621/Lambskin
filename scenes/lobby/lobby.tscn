@@ -83,7 +83,7 @@ transform = Transform3D(2.9317327, 0.10395145, 4.5507245, -0.044688024, 5.999089
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 33.33523, 1.0092087, 74.61459)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D" unique_id=1346161461]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82514954, 0.62492466, -0.036376953)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82514954, 1.8931236, -0.036376953)
 shape = SubResource("BoxShape3D_o2i1r")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Stage" unique_id=848378189]
@@ -148,10 +148,10 @@ anchor_left = 0.5
 anchor_top = 0.076000005
 anchor_right = 0.5
 anchor_bottom = 0.076000005
-offset_left = -363.0
-offset_top = -41.248005
-offset_right = 414.0
-offset_bottom = 57.751995
+offset_left = -388.0
+offset_top = -40.248005
+offset_right = 389.0
+offset_bottom = 58.751995
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_apkv3")
