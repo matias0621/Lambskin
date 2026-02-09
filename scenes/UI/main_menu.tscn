@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3nhjrng4qjc4" path="res://scenes/UI/main_menu.gd" id="1_yonvy"]
 [ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="2_tfcbk"]
+[ext_resource type="Texture2D" uid="uid://dfjuuxiywbh78" path="res://scenes/UI/menus_cadena_panel.png" id="3_bm8t2"]
 [ext_resource type="FontFile" uid="uid://drk66osvohoaj" path="res://scenes/UI/GotikaOrnament_PERSONAL_USE_ONLY.otf" id="3_e2p27"]
 [ext_resource type="Script" uid="uid://c6oloh00iwhus" path="res://scenes/UI/iniciar.gd" id="4_e2p27"]
 [ext_resource type="Script" uid="uid://chsy8d62b3m6v" path="res://scenes/UI/opciones.gd" id="5_bm8t2"]
@@ -28,33 +29,45 @@ scale = Vector2(1150.5, 644.5)
 mesh = SubResource("BoxMesh_e2p27")
 texture = ExtResource("2_tfcbk")
 
+[node name="MenusCadenaPanel" type="Sprite2D" parent="." unique_id=1003274669]
+position = Vector2(581, 400)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_bm8t2")
+
 [node name="Titulo" type="Label" parent="." unique_id=1011718068]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.165
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -425.0
-offset_top = -217.0
-offset_right = 414.0
-offset_bottom = -79.5
+anchor_bottom = 0.165
+offset_left = -418.0
+offset_top = -59.920006
+offset_right = 421.0
+offset_bottom = 77.579994
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.105882354, 0.050980393, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 116
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_e2p27")
 theme_override_font_sizes/font_size = 100
 text = "MENU_TITLE"
 horizontal_alignment = 1
 
 [node name="Iniciar" type="Button" parent="." unique_id=849008356]
-layout_mode = 0
-offset_left = 460.0
-offset_top = 321.0
-offset_right = 689.0
-offset_bottom = 387.0
-theme_override_colors/font_outline_color = Color(0.17746419, 0.06680426, 0.35045722, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.45200002
+anchor_right = 0.5
+anchor_bottom = 0.45200002
+offset_left = -265.0
+offset_top = -60.896027
+offset_right = 265.0
+offset_bottom = 5.1039734
+theme_override_colors/font_outline_color = Color(0.20142931, 0.19998932, 0.43083635, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_e2p27")
 theme_override_font_sizes/font_size = 50
@@ -65,17 +78,19 @@ script = ExtResource("4_e2p27")
 
 [node name="Opciones" type="Button" parent="." unique_id=554071408]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.592
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -104.0
-offset_top = 74.0
-offset_right = 96.0
-offset_bottom = 140.0
+anchor_bottom = 0.592
+offset_left = -279.0
+offset_top = -59.615997
+offset_right = 278.0
+offset_bottom = 6.3840027
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.20142931, 0.19998932, 0.43083635, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_e2p27")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_3h7gc")
@@ -83,19 +98,43 @@ text = "OPTION_BUTTON"
 icon_alignment = 1
 script = ExtResource("5_bm8t2")
 
-[node name="Salir" type="Button" parent="." unique_id=2039364443]
+[node name="Creditos" type="Button" parent="." unique_id=925510259]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
+anchors_preset = -1
+anchor_left = 0.499
+anchor_top = 0.72700006
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -106.0
-offset_top = 145.0
-offset_right = 94.0
-offset_bottom = 211.0
+anchor_bottom = 0.72700006
+offset_left = -296.84802
+offset_top = -52.09604
+offset_right = 297.0
+offset_bottom = 13.903961
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.20142931, 0.19998932, 0.43083635, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_e2p27")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3h7gc")
+text = "CREDITS_BUTTON"
+icon_alignment = 1
+script = ExtResource("5_bm8t2")
+
+[node name="Salir" type="Button" parent="." unique_id=2039364443]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.91400003
+anchor_right = 0.5
+anchor_bottom = 0.91400003
+offset_left = -222.0
+offset_top = -58.272034
+offset_right = 229.0
+offset_bottom = 7.7279663
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.20142931, 0.19998932, 0.43083635, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_e2p27")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_3h7gc")
@@ -105,4 +144,5 @@ script = ExtResource("5_ngj32")
 
 [connection signal="pressed" from="Iniciar" to="Iniciar" method="_on_pressed"]
 [connection signal="pressed" from="Opciones" to="Opciones" method="_on_pressed"]
+[connection signal="pressed" from="Creditos" to="Creditos" method="_on_pressed"]
 [connection signal="pressed" from="Salir" to="Salir" method="_on_pressed"]

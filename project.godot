@@ -24,6 +24,11 @@ Global="*uid://tb72n4rv3bc8"
 
 enabled=PackedStringArray("res://addons/multiplayer_input/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled.android=true
+import/blender/enabled.web=true
+
 [global_group]
 
 Player=""
