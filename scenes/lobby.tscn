@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://bwat3t75aa6ek"]
+
+[ext_resource type="Script" path="res://scenes/lobby.gd" id="1_ncsg4"]
+[ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://stage/PILAR .fbx" id="3_07nfq"]
+[ext_resource type="Texture2D" uid="uid://cs6sdm88rmoxl" path="res://stage/piso.png" id="4_oipnb"]
+[ext_resource type="PackedScene" uid="uid://cyac8urm1xiu5" path="res://stage/pARED.fbx" id="6_m1sns"]
+[ext_resource type="PackedScene" uid="uid://cbn8q441nfpkb" path="res://stage/PEURTA.fbx" id="7_dyhay"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pc087"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apkv3"]
+albedo_texture = ExtResource("4_oipnb")
+uv1_triplanar = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_0gjkf"]
+dof_blur_near_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o2i1r"]
+size = Vector3(56.33902, 1, 49.73584)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iulku"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dfnwm"]
+size = Vector3(19.80658, 4.67688, 90.89325)
+
+[node name="Lobby" type="Node3D" unique_id=1616479636]
+script = ExtResource("1_ncsg4")
+
+[node name="Stage" type="Node3D" parent="." unique_id=1376155085]
+
+[node name="PILAR 2" parent="Stage" unique_id=319475027 instance=ExtResource("3_07nfq")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 6.677882, 12.511626, 87.225334)
+
+[node name="PILAR 3" parent="Stage" unique_id=1739462712 instance=ExtResource("3_07nfq")]
+transform = Transform3D(0.6616279, 0, -4.9560313, 0, 5, 0, 4.9560313, 0, 0.6616279, 54.42974, 12.223487, 85.88238)
+
+[node name="PILAR 4" parent="Stage" unique_id=1303086532 instance=ExtResource("3_07nfq")]
+transform = Transform3D(-0.12905258, 0, -4.9983344, 0, 5, 0, 4.9983344, 0, -0.12905258, 73.4179, 14.123216, 60.45112)
+
+[node name="PILAR 5" parent="Stage" unique_id=141229169 instance=ExtResource("3_07nfq")]
+transform = Transform3D(-0.12905258, 0, -4.9983344, 0, 5, 0, 4.9983344, 0, -0.12905258, -11.300083, 14.123216, 59.350327)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Stage" unique_id=377427743]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 75, 31.453106, 4.091461, 65.34231)
+mesh = SubResource("BoxMesh_pc087")
+material = SubResource("StandardMaterial3D_apkv3")
+
+[node name="Camera3D" type="Camera3D" parent="Stage" unique_id=649539797]
+transform = Transform3D(-0.9999944, 0.0026740648, -0.0020196803, 0.0028319391, 0.9965704, -0.082701, 0.0017916056, -0.08270626, -0.9965724, 30.098602, 11.690296, 20.133545)
+attributes = SubResource("CameraAttributesPractical_0gjkf")
+fov = 72.386406
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Stage" unique_id=441910282]
+transform = Transform3D(1, 0, 0, 0, 0.061030995, 0.9981359, 0, -0.9981359, 0.061030995, 27.437653, 45.1805, 61.489147)
+
+[node name="pARED" parent="Stage" unique_id=575614003 instance=ExtResource("6_m1sns")]
+transform = Transform3D(-2.185569e-07, -0.20939697, 0.9993907, 0, 5.996345, 0.03489949, -4.999999, 9.153032e-09, -4.3684757e-08, 78.72458, -6.197072, 45.836197)
+
+[node name="pARED3" parent="Stage" unique_id=1250127532 instance=ExtResource("6_m1sns")]
+transform = Transform3D(-2.6226832e-07, 0.20939697, -0.99939084, 0, 5.996345, 0.034899496, 6, 9.153032e-09, -4.368476e-08, -15.895055, -6.0419664, 48.29651)
+
+[node name="pARED4" parent="Stage" unique_id=2056926267 instance=ExtResource("6_m1sns")]
+transform = Transform3D(3.8567257, 0, -0.7660444, 0, 6, 0, 4.5962667, 0, 0.6427876, -6.449482, -6.0419664, 77.1555)
+
+[node name="pARED5" parent="Stage" unique_id=639526215 instance=ExtResource("6_m1sns")]
+transform = Transform3D(3.8567257, 0, 0.7660444, 0, 6, 0, -4.5962667, 0, 0.6427876, 67.11504, -6.0419664, 76.12682)
+
+[node name="pARED6" parent="Stage" unique_id=497057145 instance=ExtResource("6_m1sns")]
+transform = Transform3D(9, 0, 0, 0, 6, 0, 0, 0, 1, 30.06369, -6.0419664, 89.87999)
+
+[node name="PEURTA" parent="Stage" unique_id=1753375249 instance=ExtResource("7_dyhay")]
+transform = Transform3D(3.137637, 0, -4.300953, 0, 6, 0, 3.2257147, 0, 4.1835155, -8.224679, 4.275779, 78.60113)
+
+[node name="PEURTA2" parent="Stage" unique_id=991289584 instance=ExtResource("7_dyhay")]
+transform = Transform3D(4.5, 0, 0, 0, 6, 0, 0, 0, 6, 30.526028, 4.275779, 92.60734)
+
+[node name="PEURTA3" parent="Stage" unique_id=1188241132 instance=ExtResource("7_dyhay")]
+transform = Transform3D(2.9317327, 0.10395145, 4.5507245, -0.044688024, 5.9990897, -0.08585481, -3.4136415, 0.0107423365, 3.9094167, 70.19144, 4.275779, 76.99892)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Stage" unique_id=2138135905]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 33.33523, 1.0092087, 74.61459)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D" unique_id=1346161461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82514954, 0.62492466, -0.036376953)
+shape = SubResource("BoxShape3D_o2i1r")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Stage" unique_id=848378189]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 34.72131, 0.632473, 74.58368)
+size = Vector3(64.66002, 1.3017426, 81.95616)
+material = SubResource("StandardMaterial3D_iulku")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Stage" unique_id=1993641558]
+transform = Transform3D(0.006527453, 0.9999787, 0, -0.9999787, 0.006527453, 0, 0, 0, 1, -16.789345, 12.900892, 29.277674)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D2" unique_id=654633536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4774475, 5.6986465, 16.987852)
+shape = SubResource("BoxShape3D_dfnwm")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Stage" unique_id=1487899961]
+transform = Transform3D(0.0056211194, 0.86113214, 0.5083502, -0.9999787, 0.006527453, 0, -0.003318232, -0.5083394, 0.86115044, -16.789345, 12.900892, 60.925377)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D3" unique_id=1538877342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4774475, 5.6986465, 16.987852)
+shape = SubResource("BoxShape3D_dfnwm")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Stage" unique_id=1848576037]
+transform = Transform3D(0.0014959843, 0.22917849, 0.97338325, -0.9999787, 0.0065274527, -2.282352e-10, -0.006353714, -0.97336257, 0.22918338, 2.3097105, 12.900892, 83.14968)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D4" unique_id=38415687]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4774475, 5.6986465, 16.987852)
+shape = SubResource("BoxShape3D_dfnwm")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="Stage" unique_id=1436714287]
+transform = Transform3D(-0.0005053232, -0.077413484, 0.9969989, -0.99997866, 0.0065274523, -2.2983693e-10, -0.0065078638, -0.9969776, -0.07741508, 22.539467, 12.900892, 91.57212)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D5" unique_id=564581705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4774475, 5.6986465, 16.987852)
+shape = SubResource("BoxShape3D_dfnwm")
+
+[node name="StaticBody3D6" type="StaticBody3D" parent="Stage" unique_id=404639688]
+transform = Transform3D(-0.004552345, -0.69740045, 0.71666723, -0.9999786, 0.0065274513, -2.0555817e-10, -0.0046780114, -0.71665186, -0.69741523, 57.21384, 12.900892, 83.65277)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D6" unique_id=766513042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4774475, 5.6986465, 16.987852)
+shape = SubResource("BoxShape3D_dfnwm")
+
+[node name="StaticBody3D7" type="StaticBody3D" parent="Stage" unique_id=1166592164]
+transform = Transform3D(-0.006412046, -0.982299, 0.1872099, -0.9999786, 0.006527452, -4.2008128e-10, -0.0012220035, -0.18720582, -0.98231995, 73.61986, 12.900892, 71.02247)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D7" unique_id=356736341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4774475, 5.6986465, 16.987852)
+shape = SubResource("BoxShape3D_dfnwm")
+
+[node name="StaticBody3D8" type="StaticBody3D" parent="Stage" unique_id=1951659547]
+transform = Transform3D(-5.0126808e-05, -0.0076791495, -0.9999705, -0.9999786, 0.006527452, -3.8273415e-10, 0.006527259, 0.9999491, -0.0076794177, 73.61986, 12.900892, 24.609543)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D8" unique_id=491965284]
+transform = Transform3D(1, -1.7229468e-08, 0, 1.7229468e-08, 1, 0, -2.5465852e-11, -1.7229468e-08, 1, 0.4774475, 5.6986504, 44.946632)
+shape = SubResource("BoxShape3D_dfnwm")

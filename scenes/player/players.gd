@@ -195,8 +195,6 @@ func set_as_monster():
 	human_model.hide()
 	monster_animation.show()
 
-
-
 func _update_shine_effect(enable: bool):
 	# Get the active model (human or monster)
 	var active_model = monster_animation if is_in_group("monster") else human_model
