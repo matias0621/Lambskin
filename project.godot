@@ -11,7 +11,9 @@ config_version=5
 [application]
 
 config/name="Lambskin"
+run/main_scene="uid://b61gacvv1qs15"
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.svg"
 
 [autoload]
@@ -32,6 +34,8 @@ import/blender/enabled.web=true
 [global_group]
 
 Player=""
+monster=""
+human=""
 
 [input]
 
