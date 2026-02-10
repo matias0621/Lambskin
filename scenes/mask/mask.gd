@@ -7,6 +7,9 @@ var onThrow = false
 var throwDirection = Vector2.ZERO
 @export var player:Player
 
+func _ready() -> void:
+	$Area3D.body_entered.connect(_on_area_3d_body_entered)
+
 func _physics_process(_delta):
 	if onThrow:
 		# 3D position
@@ -25,9 +28,26 @@ func throw(direction):
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	if body.is_in_group("Monster") and body.stun and player.attacking and not player.inmune:
-		body.set_as_human()
-		player.set_as_monster()
-	elif body.is_in_group("Monster") and randf() < 0.4 and player.attacking and not player.inmune:
-		body.set_as_human()
-		player.set_as_monster()
+	if not player:
+		print("ADVERTENCIA: La máscara no tiene referencia al jugador")
+		return
+	
+	if not body.is_in_group("monster"):
+		return
+	
+	if not player.attacking:
+		print("Jugador no está atacando")
+		return
+	
+	# Verificar inmunidad
+	if body.has_method("get") and body.get("inmune"):
+		print("Monstruo es inmune, no se puede transformar")
+		return
+	
+	if randf() > 0.6:
+		print("Transformación fallida")
+		return
+	
+	print("¡Transformación exitosa! Monster -> Human, Player -> Monster")
+	body.set_as_human()
+	player.set_as_monster()

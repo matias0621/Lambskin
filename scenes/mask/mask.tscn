@@ -17,4 +17,3 @@ shape = SubResource("SphereShape3D_0pm64")
 
 [node name="mask_test" parent="." unique_id=1538147156 instance=ExtResource("2_61b51")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19988441, -0.8330748, -2.7017837)
-script = null

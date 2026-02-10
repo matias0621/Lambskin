@@ -31,7 +31,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8627193, -1.0493997)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15485668, 1.8559926, -3.863202)
 visible = false
 
-[node name="Skeleton3D" parent="HumanModel/metarig_001" parent_id_path=PackedInt32Array(527842550, 12940417) index="0" unique_id=346841627]
+[node name="Skeleton3D" parent="HumanModel/metarig_001" parent_id_path=PackedInt32Array(527842550, 1014496228) index="0" unique_id=96781220]
 bones/0/position = Vector3(-2.2111971e-08, 0.38015297, -0.05487742)
 bones/0/rotation = Quaternion(-0.064929135, 0.04142914, 0.002697952, 0.9970259)
 bones/1/rotation = Quaternion(0.17525135, 0.10483135, -0.0048787496, 0.9789145)

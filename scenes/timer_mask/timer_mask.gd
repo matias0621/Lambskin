@@ -4,7 +4,7 @@ const TIMERS = [
 ]
 
 
-@export var time_limit_for_image:int = 15
+@export var time_limit_for_image:int = 10
 var time = 0
 var i = 1
 

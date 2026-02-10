@@ -1,17 +1,17 @@
 class_name Player
 extends CharacterBody3D
 
-@export var speed:float = 10
-@export var acceleration:float = 20
-@export var device_id:int = -1
+@export var speed: float = 10
+@export var acceleration: float = 20
+@export var device_id: int = -1
 @export var human_model: MonsterAnimation
 @export var monster_animation: MonsterAnimation
-@export var mask_node: Mask 
+@export var mask_node: Mask
 @export var audio_stream_player_3d: AudioStreamPlayer3D
 @export var inmune_time: float = 5.0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var _name_animations:NameAnimationMonster = NameAnimationMonster.new()
-var _name_animations_human:NameAnimationHuman = NameAnimationHuman.new()
+var _name_animations: NameAnimationMonster = NameAnimationMonster.new()
+var _name_animations_human: NameAnimationHuman = NameAnimationHuman.new()
 var attacking = false
 var can_move: bool = true # New toggle to enable/disable movement
 var inmune = false
@@ -37,9 +37,9 @@ func _ready() -> void:
 	mask_node.visible = false
 
 func _process(delta: float) -> void:
-	if MultiplayerInput.is_action_just_pressed(-1,"a"):
+	if MultiplayerInput.is_action_just_pressed(-1, "a"):
 		set_as_human()
-	if MultiplayerInput.is_action_just_pressed(-1,"b"):
+	if MultiplayerInput.is_action_just_pressed(-1, "b"):
 		set_as_monster()
 	
 	if not is_on_floor():
@@ -56,20 +56,24 @@ func _process(delta: float) -> void:
 			_update_shine_effect(false)
 	
 	if not stun:
-		var input_dir = MultiplayerInput.get_vector(device_id ,"player_right", "player_left", "player_down", "player_up")
+		var input_dir = MultiplayerInput.get_vector(device_id, "player_right", "player_left", "player_down", "player_up")
 		
-		if MultiplayerInput.is_action_just_pressed(device_id,"shoot_mask") and not is_mask_thrown and is_in_group("Human"):
+		if MultiplayerInput.is_action_just_pressed(device_id, "shoot_mask") and not is_mask_thrown and is_in_group("human"):
 			attacking = true
+			velocity.x = 0
+			velocity.z = 0
+			human_model.hide_parts()
+			mask_node.show()
 			human_model.play_animation(_name_animations_human.attack)
 			_throw_mask()
 		
 		if not attacking:
 			if input_dir != Vector2.ZERO:
 				velocity.x = lerp(velocity.x, input_dir.x * speed, acceleration * delta)
-				velocity.z = lerp(velocity.z, input_dir.y * speed ,acceleration * delta)
+				velocity.z = lerp(velocity.z, input_dir.y * speed, acceleration * delta)
 				var dir_3d = Vector3(input_dir.x, 0, input_dir.y).normalized()
 				var target_rotation = atan2(dir_3d.x, dir_3d.z) + PI
-				rotation.y = lerp_angle(rotation.y, target_rotation, 8 * delta) 
+				rotation.y = lerp_angle(rotation.y, target_rotation, 8 * delta)
 				if is_in_group("monster"):
 					monster_animation.play_animation(_name_animations.run)
 				else:
@@ -109,7 +113,6 @@ func _process(delta: float) -> void:
 	move_and_slide()
 
 func start_stun() -> void:
-
 	if is_stunning:
 		return
 	
@@ -122,7 +125,6 @@ func start_stun() -> void:
 	stun = false
 
 func _do_stun() -> void:
-
 	# Animación stunning
 	play_sfx(ELECTROCUCION)
 	monster_animation.play_animation(_name_animations.shock)
@@ -138,6 +140,9 @@ func _do_stun() -> void:
 func _throw_mask():
 	is_mask_thrown = true
 	play_sfx(PASARMASCARA)
+	
+	# Asignar referencia del jugador a la máscara
+	mask_node.player = self
 	
 	# 1. Detach from player and add to the world so it doesn't move WITH the player
 	var world = get_parent()
@@ -179,6 +184,8 @@ func _return_mask():
 	mask_node.set_collision_mask(1)
 	is_mask_thrown = false
 	attacking = false
+	mask_node.hide()
+	human_model.show_parts()
 
 func set_as_human():
 	play_sfx(BAAAAA)

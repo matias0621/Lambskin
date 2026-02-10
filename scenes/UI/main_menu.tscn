@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cxfv2x4nmgrdq" path="res://scenes/UI/rebrand-Lambskin.png" id="5_d6l81"]
 [ext_resource type="Script" uid="uid://6tu12ejx12wu" path="res://scenes/UI/salir.gd" id="5_ngj32"]
 [ext_resource type="FontFile" uid="uid://b7pl1bs7vmfr" path="res://scenes/UI/candlebright_sample.otf" id="6_mf7fl"]
-[ext_resource type="Script" uid="uid://exvjg575di30" path="res://scenes/UI/credits.gd" id="9_mf7fl"]
+[ext_resource type="Script" path="res://scenes/UI/credits.gd" id="9_mf7fl"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_e2p27"]
 

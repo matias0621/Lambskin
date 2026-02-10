@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bwat3t75aa6ek"]
 
-[ext_resource type="Script" path="res://scenes/lobby.gd" id="1_ncsg4"]
+[ext_resource type="Script" uid="uid://cm3hu75f34t07" path="res://scenes/lobby/lobby.gd" id="1_pc087"]
 [ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://stage/PILAR .fbx" id="3_07nfq"]
 [ext_resource type="Texture2D" uid="uid://cs6sdm88rmoxl" path="res://stage/piso.png" id="4_oipnb"]
 [ext_resource type="PackedScene" uid="uid://cyac8urm1xiu5" path="res://stage/pARED.fbx" id="6_m1sns"]
@@ -25,7 +25,7 @@ albedo_color = Color(0, 0, 0, 1)
 size = Vector3(19.80658, 4.67688, 90.89325)
 
 [node name="Lobby" type="Node3D" unique_id=1616479636]
-script = ExtResource("1_ncsg4")
+script = ExtResource("1_pc087")
 
 [node name="Stage" type="Node3D" parent="." unique_id=1376155085]
 
