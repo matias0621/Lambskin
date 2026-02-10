@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://cs6ubupm61ua4"]
 
 [ext_resource type="Script" uid="uid://bst0o52vh8gnp" path="res://scenes/UI/pausa.gd" id="1_qduny"]
-[ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="2_4i006"]
-[ext_resource type="FontFile" uid="uid://drk66osvohoaj" path="res://scenes/UI/GotikaOrnament_PERSONAL_USE_ONLY.otf" id="3_4i006"]
+[ext_resource type="Texture2D" uid="uid://b3a3gox3cjlvl" path="res://scenes/UI/WhatsApp Image 2026-02-09 at 22.57.48.jpeg" id="2_qqj8o"]
+[ext_resource type="Texture2D" uid="uid://b2nmlygjnxn11" path="res://scenes/UI/menus_cadena_panel2.png" id="3_3q215"]
+[ext_resource type="FontFile" uid="uid://b7pl1bs7vmfr" path="res://scenes/UI/candlebright_sample.otf" id="3_4i006"]
+[ext_resource type="Texture2D" uid="uid://clm2eda4uc87f" path="res://scenes/UI/menus_cadenas.png" id="3_qqj8o"]
 [ext_resource type="Script" uid="uid://c6oloh00iwhus" path="res://scenes/UI/iniciar.gd" id="4_3q215"]
 [ext_resource type="Script" uid="uid://6tu12ejx12wu" path="res://scenes/UI/salir.gd" id="5_qqj8o"]
 
@@ -25,19 +27,29 @@ script = ExtResource("1_qduny")
 position = Vector2(576.33936, 321.46588)
 scale = Vector2(-1151.6787, 643.93176)
 mesh = SubResource("BoxMesh_57xvq")
-texture = ExtResource("2_4i006")
+texture = ExtResource("2_qqj8o")
+
+[node name="MenusCadenas" type="Sprite2D" parent="." unique_id=1860985121]
+position = Vector2(580, 305)
+scale = Vector2(0.34, 0.34)
+texture = ExtResource("3_qqj8o")
+
+[node name="MenusCadenaPanel2" type="Sprite2D" parent="." unique_id=1818215673]
+position = Vector2(580, 281)
+scale = Vector2(0.34, 0.34)
+texture = ExtResource("3_3q215")
 
 [node name="Label" type="Label" parent="." unique_id=856708508]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.23500001
+anchor_top = 0.21000001
 anchor_right = 0.5
-anchor_bottom = 0.23500001
-offset_left = -358.0
-offset_top = -70.280014
-offset_right = 367.0
-offset_bottom = 37.719986
+anchor_bottom = 0.21000001
+offset_left = -360.0
+offset_top = -62.08
+offset_right = 365.0
+offset_bottom = 45.92
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("3_4i006")
 theme_override_font_sizes/font_size = 80
@@ -46,11 +58,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Continuar" type="Button" parent="." unique_id=1119055135]
-layout_mode = 0
-offset_left = 425.0
-offset_top = 272.0
-offset_right = 740.0
-offset_bottom = 322.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.441
+anchor_right = 0.5
+anchor_bottom = 0.441
+offset_left = -250.0
+offset_top = -25.768005
+offset_right = 260.0
+offset_bottom = 25.231995
 theme_override_fonts/font = ExtResource("3_4i006")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_jfxe8")
@@ -60,15 +77,15 @@ script = ExtResource("4_3q215")
 
 [node name="Salir" type="Button" parent="." unique_id=146637340]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 38.0
-offset_right = 104.0
-offset_bottom = 93.0
+anchors_preset = -1
+anchor_left = 0.503
+anchor_top = 0.601
+anchor_right = 0.503
+anchor_bottom = 0.601
+offset_left = -99.456055
+offset_top = -27.447998
+offset_right = 100.543945
+offset_bottom = 27.552002
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_4i006")

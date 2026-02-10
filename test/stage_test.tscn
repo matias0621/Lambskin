@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://orbb4vb5fr8y"]
+[gd_scene format=3 uid="uid://c8ta32ibewri6"]
 
 [ext_resource type="PackedScene" uid="uid://b3807tu1jaqkc" path="res://stage/PILAR .fbx" id="1_hmyw1"]
 [ext_resource type="Script" uid="uid://de5ufb7a8y0w1" path="res://stage/stage_test.gd" id="1_wh4hx"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cyac8urm1xiu5" path="res://stage/pARED.fbx" id="3_hmyw1"]
 [ext_resource type="PackedScene" uid="uid://cbn8q441nfpkb" path="res://stage/PEURTA.fbx" id="4_kjxda"]
 [ext_resource type="PackedScene" uid="uid://bvrtnuc8i67ir" path="res://scenes/portal/portal.tscn" id="6_wh4hx"]
+[ext_resource type="Script" uid="uid://cl6w3dybwjbi" path="res://scenes/timer_mask/timer_mask.gd" id="7_nvedv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hvea7"]
 
@@ -143,3 +144,19 @@ shape = SubResource("BoxShape3D_ma121")
 
 [node name="Portal" parent="." unique_id=1418581597 instance=ExtResource("6_wh4hx")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 61.895546, 3.2590637, 50.36282)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1603517589]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=649168613]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.054
+anchor_right = 0.5
+anchor_bottom = 0.054
+offset_left = -81.0
+offset_top = -56.992
+offset_right = 98.0
+offset_bottom = 132.008
+expand_mode = 5
+stretch_mode = 5
+script = ExtResource("7_nvedv")

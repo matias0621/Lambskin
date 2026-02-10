@@ -88,4 +88,4 @@ func check_all_ready():
 func start_game():
 	Global.active_players = joined_players.duplicate() # Use .duplicate() to be safe
 	print("CRITICAL: Lobby is saving these IDs: ", Global.active_players)
-	get_tree().change_scene_to_file("uid://orbb4vb5fr8y")
+	get_tree().change_scene_to_file("res://test/stage_test.tscn")
