@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://hap107c6m7ep"]
+
+[ext_resource type="VideoStream" uid="uid://b51geivv4n2ii" path="res://scenes/UI/creditos_lambskin.ogv" id="1_2lgad"]
+[ext_resource type="Script" uid="uid://dxbkihj50k247" path="res://scenes/UI/video_stream_player.gd" id="2_228wp"]
+
+[node name="Credits" type="Control" unique_id=2067808705]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1907855018]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.50100005
+anchor_right = 0.5
+anchor_bottom = 0.50100005
+offset_left = -576.0
+offset_top = -324.64804
+offset_right = 1344.0
+offset_bottom = 755.3519
+scale = Vector2(0.6, 0.6)
+stream = ExtResource("1_2lgad")
+autoplay = true
+script = ExtResource("2_228wp")
+
+[connection signal="finished" from="VideoStreamPlayer" to="VideoStreamPlayer" method="_on_finished"]
