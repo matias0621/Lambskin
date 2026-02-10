@@ -1,13 +1,12 @@
 key,es,en
-MENU_TITLE,Piel de Cordero,Lambskin
-START_BUTTON,iniciar,start
-OPTION_BUTTON,opciones,options
-EXIT_BUTTON,salir,exit
+START_BUTTON,Iniciar,Start
+OPTION_BUTTON,Opciones,Options
+EXIT_BUTTON,Salir,Exit
 OPTIONS_TITLE,Opciones,Options
-LANG_LABEL,lenguajes,languages
-RETURN_BUTTON,volver,return
+LANG_LABEL,Lenguajes,Languages
+RETURN_BUTTON,Volver,Return
 PAUSE_TITLE,Pausa,Pause
-CONTINUE_BUTTON,continuar,continue
+CONTINUE_BUTTON,Continuar,Continue
 LOBBY_TEXT1,Presione cualquier botón para unirse,Press any button to join
 LOBBY_TEXT2,Presione R o X para estar listo,Press R or X to ready up
-CREDITS_BUTTON,créditos,credits
+CREDITS_BUTTON,Créditos,Credits

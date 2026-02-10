@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cfp3dyb5a8rsd"]
 
 [ext_resource type="Texture2D" uid="uid://cpbhthp3fqvtw" path="res://stage/Pared arriba modulo.png" id="1_ijsq6"]
-[ext_resource type="FontFile" uid="uid://drk66osvohoaj" path="res://scenes/UI/GotikaOrnament_PERSONAL_USE_ONLY.otf" id="2_6mmsa"]
+[ext_resource type="FontFile" uid="uid://b7pl1bs7vmfr" path="res://scenes/UI/candlebright_sample.otf" id="2_ijsq6"]
 [ext_resource type="Script" uid="uid://ct6jg13kprueq" path="res://scenes/UI/volver.gd" id="3_ijsq6"]
 [ext_resource type="Script" uid="uid://b6x0trimsm5ud" path="res://scenes/UI/option_button.gd" id="5_6mmsa"]
 
@@ -38,7 +38,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.105882354, 0.050980393, 1)
 theme_override_constants/line_spacing = 116
-theme_override_fonts/font = ExtResource("2_6mmsa")
+theme_override_fonts/font = ExtResource("2_ijsq6")
 theme_override_font_sizes/font_size = 100
 text = "OPTIONS_TITLE"
 horizontal_alignment = 1
@@ -49,7 +49,7 @@ offset_left = 288.0
 offset_top = 418.0
 offset_right = 874.0
 offset_bottom = 484.0
-theme_override_fonts/font = ExtResource("2_6mmsa")
+theme_override_fonts/font = ExtResource("2_ijsq6")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxEmpty_666yi")
 text = "RETURN_BUTTON"
@@ -62,8 +62,8 @@ offset_left = 81.0
 offset_top = 299.0
 offset_right = 179.0
 offset_bottom = 322.0
-theme_override_fonts/font = ExtResource("2_6mmsa")
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("2_ijsq6")
+theme_override_font_sizes/font_size = 50
 text = "LANG_LABEL"
 vertical_alignment = 1
 
