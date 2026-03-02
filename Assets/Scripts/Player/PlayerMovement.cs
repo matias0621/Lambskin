@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         _moveInput = value.Get<Vector2>();
     }
 
-    public void OnShootMask(InputValue value)
+    public void OnAttack(InputValue value)
     {
         if (value.isPressed && !_isMaskThrown && isHuman && !_isAttacking)
         {
@@ -94,8 +94,8 @@ public class PlayerMovement : MonoBehaviour
                 _velocity.z = Mathf.Lerp(_velocity.z, targetZ, acceleration * Time.deltaTime);
 
                 // Rotación hacia donde mira
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+                Quaternion targetRotation = Quaternion.LookRotation(-direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime); 
 
                 PlayAnimation("Run");
                 
