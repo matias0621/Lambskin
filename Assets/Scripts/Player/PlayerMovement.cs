@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
     public bool isHuman = false;
     public bool canMove = true;
 
+    [Header("Animations")]
+    public AnimationsHuman humanAnims;
+    public AnimationsMonster monsterAnims;
+
     [Header("Audio Clips")]
     public AudioClip stepsSFX;
     public AudioClip maskThrowSFX;
@@ -30,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     // Privados para lógica interna
     private CharacterController _controller;
+    private Animator _humanAnimator;
+    private Animator _monsterAnimator;
     private Vector3 _velocity;
     private Vector2 _moveInput;
     private bool _isAttacking = false;
@@ -37,10 +43,13 @@ public class PlayerMovement : MonoBehaviour
     private float _immuneTimer = 0.0f;
     private bool _isStunned = false;
     private bool _isMaskThrown = false;
+    private string _currentAnim;
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
+        _humanAnimator = humanModel.GetComponent<Animator>();
+        _monsterAnimator = monsterModel.GetComponent<Animator>();
         gameObject.tag = "Player";
     }
 
@@ -97,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(-direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime); 
 
-                PlayAnimation("Run");
+                PlayAnimation(isHuman ? humanAnims.walk : monsterAnims.run);
                 
                 // Sonido de pasos
                 if (_controller.isGrounded && !audioSource.isPlaying)
@@ -109,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 _velocity.x = Mathf.MoveTowards(_velocity.x, 0, acceleration * Time.deltaTime);
                 _velocity.z = Mathf.MoveTowards(_velocity.z, 0, acceleration * Time.deltaTime);
-                PlayAnimation("Idle");
+                PlayAnimation(isHuman ? humanAnims.idle : monsterAnims.idle);
             }
         }
 
@@ -205,11 +214,13 @@ public class PlayerMovement : MonoBehaviour
 
     // --- UTILS ---
 
-    private void PlayAnimation(string triggerName)
+    private void PlayAnimation(string clipName)
     {
-        // En Unity lo ideal es que humanModel y monsterModel tengan su componente Animator
-        Animator activeAnim = isHuman ? humanModel.GetComponent<Animator>() : monsterModel.GetComponent<Animator>();
-        if (activeAnim != null) activeAnim.SetTrigger(triggerName);
+        if (clipName == _currentAnim) return;
+        _currentAnim = clipName;
+
+        Animator activeAnim = isHuman ? _humanAnimator : _monsterAnimator;
+        if (activeAnim != null) activeAnim.CrossFadeInFixedTime(clipName, 0.15f);
     }
 
     private void PlaySFX(AudioClip clip, bool randomPitch = false)
