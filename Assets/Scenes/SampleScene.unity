@@ -1227,6 +1227,10 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 0.16728267
       objectReference: {fileID: 0}
+    - target: {fileID: -4748361991329772099, guid: 397a70e272bcc8840802433b53d9668d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 04ce731255ee2af4fb0a5e106a2ef34d, type: 2}
     - target: {fileID: -4445966035071405998, guid: 397a70e272bcc8840802433b53d9668d, type: 3}
       propertyPath: m_DirtyAABB
       value: 0
@@ -1736,6 +1740,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2060883973}
     m_Modifications:
+    - target: {fileID: -4748361991329772099, guid: 9ae87d4c81fa1e34dad6fefa513159a0, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a6994725ab29f854fbf60aa08cf705df, type: 2}
     - target: {fileID: -3910990755373119420, guid: 9ae87d4c81fa1e34dad6fefa513159a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1986,6 +1994,8 @@ MonoBehaviour:
   immuneTime: 5
   isHuman: 0
   canMove: 1
+  humanAnims: {fileID: 11400000, guid: 5880893eccc229f42affd7e1f1eeea5b, type: 2}
+  monsterAnims: {fileID: 11400000, guid: 01bb1d6eb46ed1f46bd2703951eb244f, type: 2}
   stepsSFX: {fileID: 8300000, guid: 4488616e4e59a1043b9314ac89d0ddc3, type: 3}
   maskThrowSFX: {fileID: 8300000, guid: 559542313e1dc214c9379f9331df1884, type: 3}
   electrocutionSFX: {fileID: 8300000, guid: 0b6c060031fc2e9428092b51598702f9, type: 3}
