@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         _moveInput = value.Get<Vector2>();
+        Debug.Log($"[PlayerMovement] OnMove: {_moveInput}");
     }
 
     public void OnAttack(InputValue value)
@@ -197,7 +198,9 @@ public class PlayerMovement : MonoBehaviour
     public void SetAsHuman()
     {
         isHuman = true;
-        gameObject.layer = LayerMask.NameToLayer("Human"); // Opcional para colisiones
+        int layer = LayerMask.NameToLayer("Human");
+        if (layer >= 0) gameObject.layer = layer;
+        else Debug.LogWarning("Layer 'Human' not found. Add it in Edit > Project Settings > Tags and Layers.");
         humanModel.SetActive(true);
         monsterModel.SetActive(false);
         PlaySFX(baaaaSFX);
@@ -206,7 +209,9 @@ public class PlayerMovement : MonoBehaviour
     public void SetAsMonster()
     {
         isHuman = false;
-        gameObject.layer = LayerMask.NameToLayer("Monster");
+        int layer = LayerMask.NameToLayer("Monster");
+        if (layer >= 0) gameObject.layer = layer;
+        else Debug.LogWarning("Layer 'Monster' not found. Add it in Edit > Project Settings > Tags and Layers.");
         humanModel.SetActive(false);
         monsterModel.SetActive(true);
         maskPrefab.SetActive(false);
