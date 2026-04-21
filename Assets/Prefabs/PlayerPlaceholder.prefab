@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1358744415380770274}
   - component: {fileID: 5176940821929607479}
   - component: {fileID: 8148033583230917762}
-  - component: {fileID: 3760817093922891888}
   - component: {fileID: 5190676717160948726}
   - component: {fileID: 6278551877886325512}
   m_Layer: 0
@@ -84,45 +83,17 @@ MonoBehaviour:
   maskPrefab: {fileID: 3904007008016247934}
   audioSource: {fileID: 0}
   immuneTime: 5
-  isHuman: 0
   canMove: 1
+  _IsHuman:
+    _value: 0
+  _IsImmune:
+    _value: 0
   humanAnims: {fileID: 11400000, guid: 5880893eccc229f42affd7e1f1eeea5b, type: 2}
   monsterAnims: {fileID: 11400000, guid: 01bb1d6eb46ed1f46bd2703951eb244f, type: 2}
   stepsSFX: {fileID: 8300000, guid: 4488616e4e59a1043b9314ac89d0ddc3, type: 3}
   maskThrowSFX: {fileID: 8300000, guid: 559542313e1dc214c9379f9331df1884, type: 3}
   electrocutionSFX: {fileID: 8300000, guid: 0b6c060031fc2e9428092b51598702f9, type: 3}
   baaaaSFX: {fileID: 8300000, guid: 0f8d37649812fe449af43273dc9c085d, type: 3}
-  _isImmune: 0
---- !u!114 &3760817093922891888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209437367423977834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &5190676717160948726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,9 +108,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 4274039355
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 786433
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 8148033583230917762}
   - {fileID: 6278551877886325512}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &6278551877886325512

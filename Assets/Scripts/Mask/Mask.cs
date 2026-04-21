@@ -61,8 +61,8 @@ public class Mask : MonoBehaviour
         PlayerMovement targetPlayer = other.GetComponent<PlayerMovement>();
         if (targetPlayer == null) return;
 
-        // Verificar inmunidad (usando la variable pública del script Player)
-        if (targetPlayer._isImmune) 
+        // Verificar inmunidad (usando la propiedad Networked del script Player)
+        if (targetPlayer.IsImmune) 
         {
             Debug.Log("Monstruo es inmune");
             return;

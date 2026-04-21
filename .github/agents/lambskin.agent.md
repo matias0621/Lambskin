@@ -1,6 +1,6 @@
 ---
 name: lambskin
-description: Agente especializado en el desarrollo del juego Lambskin, un party game multijugador local de terror/humor desarrollado en Unity 6. Úsalo para implementar mecánicas de juego, corregir bugs, crear nuevos scripts, optimizar rendimiento y cualquier tarea relacionada con el proyecto.
+description: Agente especializado en el desarrollo del juego Lambskin, un party game multijugador local y online de terror/humor desarrollado en Unity 6 con Photon Fusion 2. Úsalo para implementar mecánicas de juego, corregir bugs, crear nuevos scripts, optimizar rendimiento y cualquier tarea relacionada con el proyecto.
 argument-hint: Una tarea a implementar, un bug a corregir, o una pregunta sobre el proyecto Lambskin.
 ---
 
@@ -8,7 +8,7 @@ argument-hint: Una tarea a implementar, un bug a corregir, o una pregunta sobre 
 
 ## Descripción del Proyecto
 
-**Lambskin** es un party game multijugador local (couch co-op) de temática terror/humor desarrollado en **Unity 6 (6000.0.63f1)** con **Universal Render Pipeline (URP)**. El juego soporta múltiples jugadores con controles por joystick y teclado usando el **New Input System**.
+**Lambskin** es un party game multijugador local (couch co-op) y online de temática terror/humor desarrollado en **Unity 6 (6000.0.63f1)** con **Universal Render Pipeline (URP)**. El juego soporta múltiples jugadores con controles por joystick y teclado usando el **New Input System**. Para el multijugador online, el proyecto utiliza **Photon Fusion 2** (última versión estable), que proporciona sincronización de estado determinista y bajo lag para la experiencia de juego en red.
 
 ### Mecánica Principal (Core Loop)
 
@@ -40,6 +40,7 @@ Assets/
 │   │   └── GameManager.cs       — Singleton global (muerte humano, palancas, selección aleatoria)
 │   └── Timer/
 │       └── TimerMask.cs         — UI del temporizador visual con sprites de máscara
+├── Photon/                      — Assets y configuración de Photon Fusion 2 (NetworkProjectConfig, SimulationConfig, etc.)
 ├── Models/                      — Modelos 3D (.glb, .fbx, .png): human_test, mask_test, test_monster, pared, puerta, pilar, piso
 ├── Music/                       — (vacío, pendiente)
 ├── SFX/                         — (vacío, pendiente)
@@ -54,11 +55,13 @@ Assets/
 - **Singleton**: `GameManager` usa el patrón Singleton con `DontDestroyOnLoad`.
 - **Component-Based**: Cada mecánica es un `MonoBehaviour` independiente.
 - **Input System**: Se usa el New Input System con `PlayerInput` para multijugador local. Las acciones se reciben vía `OnMove()`, `OnShootMask()`, etc.
+- **Photon Fusion 2 Networking**: Para multijugador online se usa el modelo de **Shared Mode** de Fusion 2. Los objetos de red heredan de `NetworkBehaviour` y usan `[Networked]` para propiedades sincronizadas. La autoridad de estado (State Authority) y la autoridad de input (Input Authority) se gestionan según el modelo cliente-servidor.
 - **Coroutines**: Lanzamiento de máscara y stun usan `IEnumerator` coroutines.
 - **Tags y Layers**: El juego necesita tags `Player`, `Monster`, `Human`, `Palanca` y layers `Human`, `Monster` (actualmente NO configurados en TagManager — pendiente).
 
 ### Dependencias Clave (Packages)
 
+- **Photon Fusion 2** (última versión estable) — Framework de networking para multijugador online
 - `com.unity.inputsystem` 1.16.0 — New Input System
 - `com.unity.render-pipelines.universal` 17.0.4 — URP
 - `com.unity.ai.navigation` 2.0.9 — NavMesh (posible IA de monstruos futura)
@@ -79,6 +82,7 @@ Assets/
 - Timer visual con sprites de máscara
 - Lobby multijugador local con sistema Ready
 - GameManager singleton con lógica de muerte y selección aleatoria
+- **Photon Fusion 2 integrado**: SDK instalado y configurado en el proyecto
 
 ### Pendiente / Incompleto
 - **Tags y Layers no configurados**: `TagManager.asset` no tiene tags personalizados ni layers `Human`/`Monster`. Es necesario configurarlos.
@@ -91,6 +95,14 @@ Assets/
 - **Acción "Ready"**: Referenciada en `LobbyManager` pero no definida en el Input Actions asset.
 - **Acción "ShootMask"**: Usada en `PlayerMovement.OnShootMask()` pero el inputactions solo define "Attack".
 - **Modelo de máscara**: `maskPrefab` usa lógica dual — tanto `PlayerMovement` (coroutine de ida/vuelta) como `Mask.cs` (Rigidbody + física). Podría haber conflicto. Necesita consolidar.
+- **Networking con Photon Fusion 2**:
+  - Scripts existentes (`PlayerMovement`, `Mask`, `Portal`, `GameManager`, etc.) son `MonoBehaviour` locales, necesitan adaptarse a `NetworkBehaviour` para sincronización online.
+  - Falta sistema de lobby online (conexión a servidor, matchmaking, room creation).
+  - No hay sincronización de roles (Humano/Monstruo) en red.
+  - El lanzamiento de máscara, portales y palancas no están networked.
+  - Falta implementación de `INetworkInput` para sincronizar input de jugadores.
+  - No hay gestión de autoridad (State Authority vs Input Authority) definida.
+  - Compatibilidad entre modo local (New Input System) y modo online (Fusion Input) pendiente de diseño.
 
 ## Reglas y Convenciones para el Agente
 
@@ -115,6 +127,13 @@ Assets/
 - Nuevas mecánicas deben ser componentes independientes (`MonoBehaviour`) en su propia carpeta dentro de `Assets/Scripts/`.
 - Para comunicación entre scripts, preferir: eventos (`UnityEvent`, `System.Action`) > referencia directa > Singleton.
 - El input siempre debe pasar por el New Input System, nunca por `Input.GetKey`.
+- **Networking con Fusion 2**: 
+  - Scripts que requieren sincronización en red deben heredar de `NetworkBehaviour` en lugar de `MonoBehaviour`.
+  - Usar atributo `[Networked]` para propiedades que deben sincronizarse.
+  - Implementar `INetworkRunnerCallbacks` cuando sea necesario escuchar eventos de red.
+  - Usar `NetworkObject` component en GameObjects que deben spawnearse en red.
+  - Para input en red, implementar `INetworkInput` y usar `GetInput<T>()` en `FixedUpdateNetwork()`.
+  - Llamadas RPC se hacen vía `Runner.RPC()` con métodos marcados con `[Rpc]`.
 
 ### Unity y URP
 - El proyecto usa **Unity 6** (6000.0.63f1) con **URP 17**.
@@ -122,19 +141,33 @@ Assets/
 - Los modelos 3D usan formato **GLTF** (via UnityGLTF) y **FBX**.
 - La UI usa **TextMeshPro** (TMPro) y **uGUI** (Canvas, Image).
 
+### Photon Fusion 2
+- El proyecto usa **Photon Fusion 2** en modo **Shared Mode** para multijugador online.
+- Scripts de red deben heredar de `NetworkBehaviour` y usar `FixedUpdateNetwork()` en lugar de `FixedUpdate()` para lógica determinista.
+- Propiedades sincronizadas usan el atributo `[Networked]` con auto-propiedades: `[Networked] public int Health { get; set; }`.
+- Para spawning de objetos en red, usar `Runner.Spawn()` con prefabs que tengan el componente `NetworkObject`.
+- La configuración de red se encuentra en `Assets/Photon/PhotonAppSettings` y `NetworkProjectConfig`.
+- Usar `OnPlayerJoined()` y `OnPlayerLeft()` para gestionar conexiones/desconexiones.
+- Para sincronización de eventos instantáneos, usar RPCs: `[Rpc(RpcSources.All, RpcTargets.All)]`.
+- **Importante**: Verificar compatibilidad entre el input local (New Input System) y el input de red (INetworkInput) — pueden coexistir con abstracción adecuada.
+
 ### Organización de Archivos
 - Scripts nuevos van en `Assets/Scripts/{NombreDelSistema}/{NombreDelScript}.cs`.
+- Scripts de red (NetworkBehaviour) siguen la misma estructura pero pueden tener sufijo `Network` si es necesario distinguir de la versión local.
 - Modelos en `Assets/Models/`.
 - Audio (cuando se agregue) en `Assets/Music/` y `Assets/SFX/`.
 - Escenas en `Assets/Scenes/`.
 - Configuración URP en `Assets/Settings/`.
+- Assets de Photon (configuración, prefabs de red) en `Assets/Photon/`.
 
 ### Antes de Implementar Cambios
 1. Verificar que los tags y layers necesarios existan revisando `ProjectSettings/TagManager.asset`.
 2. Verificar que las acciones de Input necesarias existan en `InputSystem_Actions.inputactions`.
 3. Revisar si la mecánica interactúa con el sistema de roles (Humano/Monstruo) y respetar el flujo existente.
 4. Considerar el impacto en multijugador local (múltiples PlayerInput).
+5. **Para funcionalidad online**: Verificar si la mecánica debe sincronizarse en red y planificar qué propiedades necesitan `[Networked]`, qué eventos necesitan RPCs, y quién tiene autoridad (State/Input Authority).
 
 ### Testing
 - Al crear nuevos scripts, incluir validaciones en `Awake()` o `Start()` con `Debug.LogWarning()` para referencias faltantes.
 - Verificar que los nuevos componentes no rompan el flujo Lobby → Partida → Fin.
+- **Para componentes de red**: Probar en modo Host y Client por separado. Usar `Runner.IsServer` y `Runner.IsClient` para depuración. Verificar sincronización con multiples instancias (ParrelSync o builds separadas).
