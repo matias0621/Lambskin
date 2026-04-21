@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Fusion;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(InputSystem_Actions))]
-public class PlayerMovement : MonoBehaviour
+[RequireComponent(typeof(NetworkObject))]
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement Settings")]
     public float speed = 10f;
@@ -19,8 +20,18 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Gameplay State")]
     public float immuneTime = 5.0f;
-    public bool isHuman = false;
     public bool canMove = true;
+
+    // Propiedades sincronizadas en red
+    [Networked] public NetworkBool IsHuman { get; set; }
+    [Networked] public NetworkBool IsImmune { get; set; }
+    [Networked] private TickTimer ImmuneTimer { get; set; }
+    [Networked] private NetworkBool IsStunned { get; set; }
+    [Networked] private NetworkBool IsMaskThrown { get; set; }
+    [Networked] private NetworkBool IsAttacking { get; set; }
+
+    // Variable local para compatibilidad con código existente
+    public bool isHuman => IsHuman;
 
     [Header("Animations")]
     public AnimationsHuman humanAnims;
@@ -38,12 +49,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator _monsterAnimator;
     private Vector3 _velocity;
     private Vector2 _moveInput;
-    private bool _isAttacking = false;
-    public bool _isImmune = false;
-    private float _immuneTimer = 0.0f;
-    private bool _isStunned = false;
-    private bool _isMaskThrown = false;
     private string _currentAnim;
+    private bool _wasAttackPressed = false;
 
     private void Awake()
     {
@@ -53,115 +60,191 @@ public class PlayerMovement : MonoBehaviour
         gameObject.tag = "Player";
     }
 
-    private void Start()
+    public override void Spawned()
     {
         maskPrefab.SetActive(false);
-        // Inicializar estado según grupo inicial (por defecto monstruo)
-        if (isHuman) SetAsHuman(); else SetAsMonster();
+        
+        Debug.Log($"[PlayerMovement] Spawned. HasInputAuthority: {Object.HasInputAuthority}, HasStateAuthority: {Object.HasStateAuthority}");
+        
+        // Solo el servidor inicializa el estado
+        if (Object.HasStateAuthority)
+        {
+            // Por defecto todos son monstruos al inicio
+            IsHuman = false;
+            IsImmune = false;
+            IsStunned = false;
+            IsMaskThrown = false;
+            IsAttacking = false;
+        }
+        
+        // Todos los clientes actualizan su visualización
+        UpdateVisuals();
     }
 
+    public override void FixedUpdateNetwork()
+    {
+        // Obtener input del jugador si tiene autoridad de input
+        if (GetInput(out NetworkInputData input))
+        {
+            _moveInput = input.movementInput;
+            
+            if (_moveInput.magnitude > 0.1f)
+            {
+                Debug.Log($"[PlayerMovement] Input recibido: {_moveInput}, HasStateAuthority: {Object.HasStateAuthority}");
+            }
+            
+            // Detectar ataque (solo en flanco ascendente)
+            if (input.attackPressed && !_wasAttackPressed && !IsMaskThrown && IsHuman && !IsAttacking)
+            {
+                // Iniciar lanzamiento de máscara
+                if (Object.HasStateAuthority)
+                {
+                    RPC_ThrowMask();
+                }
+            }
+            _wasAttackPressed = input.attackPressed;
+        }
+        else if (Object.HasInputAuthority)
+        {
+            Debug.LogWarning($"[PlayerMovement] NO se recibió input pero tengo InputAuthority");
+        }
+
+        // Solo el servidor procesa la física y lógica
+        if (Object.HasStateAuthority)
+        {
+            HandleImmunity();
+
+            if (canMove && !IsStunned)
+            {
+                ApplyMovement();
+            }
+            else
+            {
+                ApplyGravityOnly();
+            }
+        }
+    }
+
+    // Estos métodos se mantienen para compatibilidad con modo local (sin red)
     public void OnMove(InputValue value)
     {
-        _moveInput = value.Get<Vector2>();
-        Debug.Log($"[PlayerMovement] OnMove: {_moveInput}");
+        // Solo procesar si NO estamos en red o si tenemos input authority
+        if (Object == null || Object.HasInputAuthority)
+        {
+            _moveInput = value.Get<Vector2>();
+        }
     }
-
+    
     public void OnAttack(InputValue value)
     {
-        if (value.isPressed && !_isMaskThrown && isHuman && !_isAttacking)
+        // Solo procesar si NO estamos en red o si tenemos input authority
+        if (Object == null || Object.HasInputAuthority)
         {
-            StartCoroutine(ThrowMaskRoutine());
-        }
-    }
-
-    private void Update()
-    {
-        HandleImmunity();
-
-        if (canMove && !_isStunned)
-        {
-            ApplyMovement();
-        }
-        else
-        {
-            ApplyGravityOnly();
+            if (value.isPressed && !IsMaskThrown && IsHuman && !IsAttacking)
+            {
+                if (Object == null)
+                {
+                    // Modo local sin red
+                    StartCoroutine(ThrowMaskRoutine());
+                }
+                else if (Object.HasStateAuthority)
+                {
+                    // Modo red con autoridad
+                    RPC_ThrowMask();
+                }
+            }
         }
     }
 
     private void ApplyMovement()
     {
+        // Usar el deltaTime correcto (Runner para red, Time para local)
+        float deltaTime = Runner != null ? Runner.DeltaTime : Time.deltaTime;
+        
         // Convertir el input 2D a movimiento 3D
         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
 
-        if (!_isAttacking)
+        if (!IsAttacking)
         {
             if (direction.magnitude > 0.1f)
             {
                 // Aceleración suave (Lerp)
                 float targetX = direction.x * speed;
                 float targetZ = direction.z * speed;
-                _velocity.x = Mathf.Lerp(_velocity.x, targetX, acceleration * Time.deltaTime);
-                _velocity.z = Mathf.Lerp(_velocity.z, targetZ, acceleration * Time.deltaTime);
+                _velocity.x = Mathf.Lerp(_velocity.x, targetX, acceleration * deltaTime);
+                _velocity.z = Mathf.Lerp(_velocity.z, targetZ, acceleration * deltaTime);
 
                 // Rotación hacia donde mira
                 Quaternion targetRotation = Quaternion.LookRotation(-direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime); 
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * deltaTime); 
 
-                PlayAnimation(isHuman ? humanAnims.walk : monsterAnims.run);
+                PlayAnimation(IsHuman ? humanAnims.walk : monsterAnims.run);
                 
-                // Sonido de pasos
-                if (_controller.isGrounded && !audioSource.isPlaying)
+                // Sonido de pasos (solo para el jugador local)
+                if (Object == null || Object.HasInputAuthority)
                 {
-                    PlaySFX(stepsSFX, true);
+                    if (_controller.isGrounded && !audioSource.isPlaying)
+                    {
+                        PlaySFX(stepsSFX, true);
+                    }
                 }
             }
             else
             {
-                _velocity.x = Mathf.MoveTowards(_velocity.x, 0, acceleration * Time.deltaTime);
-                _velocity.z = Mathf.MoveTowards(_velocity.z, 0, acceleration * Time.deltaTime);
-                PlayAnimation(isHuman ? humanAnims.idle : monsterAnims.idle);
+                _velocity.x = Mathf.MoveTowards(_velocity.x, 0, acceleration * deltaTime);
+                _velocity.z = Mathf.MoveTowards(_velocity.z, 0, acceleration * deltaTime);
+                PlayAnimation(IsHuman ? humanAnims.idle : monsterAnims.idle);
             }
         }
 
         // Gravedad constante
         if (!_controller.isGrounded)
         {
-            _velocity.y -= gravity * Time.deltaTime;
+            _velocity.y -= gravity * deltaTime;
         }
         else
         {
             _velocity.y = -0.5f; // Mantener pegado al suelo
         }
 
-        _controller.Move(_velocity * Time.deltaTime);
+        _controller.Move(_velocity * deltaTime);
     }
 
     private void HandleImmunity()
     {
-        if (_isImmune)
+        if (IsImmune && ImmuneTimer.Expired(Runner))
         {
-            _immuneTimer += Time.deltaTime;
+            IsImmune = false;
+            UpdateShineEffect(false);
+        }
+        else if (IsImmune)
+        {
             UpdateShineEffect(true);
-            if (_immuneTimer >= immuneTime)
-            {
-                _isImmune = false;
-                _immuneTimer = 0.0f;
-                UpdateShineEffect(false);
-            }
         }
     }
 
     // --- MECÁNICA CORE: LANZAR MÁSCARA ---
 
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_ThrowMask()
+    {
+        StartCoroutine(ThrowMaskRoutine());
+    }
+
     private IEnumerator ThrowMaskRoutine()
     {
-        _isAttacking = true;
-        _isMaskThrown = true;
+        IsAttacking = true;
+        IsMaskThrown = true;
 
         // Ocultar partes del humano (animación)
         // humanModel.GetComponent<MonsterAnimation>().HideParts(); 
         maskPrefab.SetActive(true);
-        PlaySFX(maskThrowSFX);
+        
+        // Sonido solo para el jugador local
+        if (Object == null || Object.HasInputAuthority)
+        {
+            PlaySFX(maskThrowSFX);
+        }
 
         // Desacoplar máscara al mundo
         maskPrefab.transform.SetParent(null);
@@ -188,8 +271,8 @@ public class PlayerMovement : MonoBehaviour
         maskPrefab.transform.localPosition = new Vector3(0, 0.5f, -1.5f); // Ajustar según tu modelo
         maskPrefab.transform.localRotation = Quaternion.identity;
 
-        _isMaskThrown = false;
-        _isAttacking = false;
+        IsMaskThrown = false;
+        IsAttacking = false;
         maskPrefab.SetActive(false);
     }
 
@@ -197,24 +280,82 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetAsHuman()
     {
-        isHuman = true;
-        int layer = LayerMask.NameToLayer("Human");
-        if (layer >= 0) gameObject.layer = layer;
-        else Debug.LogWarning("Layer 'Human' not found. Add it in Edit > Project Settings > Tags and Layers.");
-        humanModel.SetActive(true);
-        monsterModel.SetActive(false);
-        PlaySFX(baaaaSFX);
+        if (Object != null && Object.HasStateAuthority)
+        {
+            IsHuman = true;
+            RPC_UpdateVisuals();
+        }
+        else if (Object == null)
+        {
+            // Modo local sin red
+            IsHuman = true;
+            UpdateVisuals();
+        }
     }
 
     public void SetAsMonster()
     {
-        isHuman = false;
-        int layer = LayerMask.NameToLayer("Monster");
-        if (layer >= 0) gameObject.layer = layer;
-        else Debug.LogWarning("Layer 'Monster' not found. Add it in Edit > Project Settings > Tags and Layers.");
-        humanModel.SetActive(false);
-        monsterModel.SetActive(true);
-        maskPrefab.SetActive(false);
+        if (Object != null && Object.HasStateAuthority)
+        {
+            IsHuman = false;
+            RPC_UpdateVisuals();
+        }
+        else if (Object == null)
+        {
+            // Modo local sin red
+            IsHuman = false;
+            UpdateVisuals();
+        }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_UpdateVisuals()
+    {
+        UpdateVisuals();
+    }
+
+    private void UpdateVisuals()
+    {
+        int layer;
+        
+        if (IsHuman)
+        {
+            layer = LayerMask.NameToLayer("Human");
+            if (layer >= 0) gameObject.layer = layer;
+            else Debug.LogWarning("Layer 'Human' not found. Add it in Edit > Project Settings > Tags and Layers.");
+            
+            humanModel.SetActive(true);
+            monsterModel.SetActive(false);
+            
+            // Sonido solo para el jugador local
+            if (Object == null || Object.HasInputAuthority)
+            {
+                PlaySFX(baaaaSFX);
+            }
+        }
+        else
+        {
+            layer = LayerMask.NameToLayer("Monster");
+            if (layer >= 0) gameObject.layer = layer;
+            else Debug.LogWarning("Layer 'Monster' not found. Add it in Edit > Project Settings > Tags and Layers.");
+            
+            humanModel.SetActive(false);
+            monsterModel.SetActive(true);
+            maskPrefab.SetActive(false);
+        }
+    }
+
+    public void StartImmunity()
+    {
+        if (Object != null && Object.HasStateAuthority)
+        {
+            IsImmune = true;
+            ImmuneTimer = TickTimer.CreateFromSeconds(Runner, immuneTime);
+        }
+        else if (Object == null)
+        {
+            IsImmune = true;
+        }
     }
 
     // --- UTILS ---
@@ -224,7 +365,7 @@ public class PlayerMovement : MonoBehaviour
         if (clipName == _currentAnim) return;
         _currentAnim = clipName;
 
-        Animator activeAnim = isHuman ? _humanAnimator : _monsterAnimator;
+        Animator activeAnim = IsHuman ? _humanAnimator : _monsterAnimator;
         if (activeAnim != null) activeAnim.CrossFadeInFixedTime(clipName, 0.15f);
     }
 
@@ -247,7 +388,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyGravityOnly()
     {
-        if (!_controller.isGrounded) _velocity.y -= gravity * Time.deltaTime;
-        _controller.Move(new Vector3(0, _velocity.y, 0) * Time.deltaTime);
+        float deltaTime = Runner != null ? Runner.DeltaTime : Time.deltaTime;
+        if (!_controller.isGrounded) _velocity.y -= gravity * deltaTime;
+        _controller.Move(new Vector3(0, _velocity.y, 0) * deltaTime);
     }
 }

@@ -77,7 +77,7 @@ public class Portal : MonoBehaviour
     {
         if (_activePlayer != null)
         {
-            _activePlayer._isImmune = true; // Inmunidad al terminar
+            _activePlayer.StartImmunity(); // Activa inmunidad con timer al terminar
             _activePlayer.canMove = true;
         }
         
