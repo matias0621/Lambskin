@@ -29,6 +29,7 @@ public class PlayerMovement : NetworkBehaviour
     [Networked] private NetworkBool IsStunned { get; set; }
     [Networked] private NetworkBool IsMaskThrown { get; set; }
     [Networked] private NetworkBool IsAttacking { get; set; }
+    [Networked] private Vector2 MovementInput { get; set; }
 
     // Variable local para compatibilidad con código existente
     public bool isHuman => IsHuman;
@@ -112,6 +113,9 @@ public class PlayerMovement : NetworkBehaviour
         // Solo el servidor procesa la física y lógica
         if (Object.HasStateAuthority)
         {
+            // Escribir el input en la propiedad de red para que los clientes puedan leerlo
+            MovementInput = _moveInput;
+
             HandleImmunity();
 
             if (canMove && !IsStunned)
@@ -123,6 +127,9 @@ public class PlayerMovement : NetworkBehaviour
                 ApplyGravityOnly();
             }
         }
+
+        // Todos los clientes actualizan sus animaciones usando el estado de red sincronizado
+        UpdateAnimations();
     }
 
     // Estos métodos se mantienen para compatibilidad con modo local (sin red)
@@ -177,8 +184,6 @@ public class PlayerMovement : NetworkBehaviour
                 // Rotación hacia donde mira
                 Quaternion targetRotation = Quaternion.LookRotation(-direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * deltaTime); 
-
-                PlayAnimation(IsHuman ? humanAnims.walk : monsterAnims.run);
                 
                 // Sonido de pasos (solo para el jugador local)
                 if (Object == null || Object.HasInputAuthority)
@@ -193,7 +198,6 @@ public class PlayerMovement : NetworkBehaviour
             {
                 _velocity.x = Mathf.MoveTowards(_velocity.x, 0, acceleration * deltaTime);
                 _velocity.z = Mathf.MoveTowards(_velocity.z, 0, acceleration * deltaTime);
-                PlayAnimation(IsHuman ? humanAnims.idle : monsterAnims.idle);
             }
         }
 
@@ -208,6 +212,28 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         _controller.Move(_velocity * deltaTime);
+    }
+
+    /// <summary>
+    /// Actualiza las animaciones en todos los clientes usando el estado sincronizado en red.
+    /// Se llama fuera del bloque HasStateAuthority para que todos los peers la ejecuten.
+    /// </summary>
+    private void UpdateAnimations()
+    {
+        if (IsAttacking) return;
+
+        // Leer el input de movimiento desde la propiedad de red (escrita por el servidor)
+        Vector2 netInput = Object != null ? MovementInput : _moveInput;
+        Vector3 direction = new Vector3(netInput.x, 0, netInput.y).normalized;
+
+        if (direction.magnitude > 0.1f)
+        {
+            PlayAnimation(IsHuman ? humanAnims.walk : monsterAnims.run);
+        }
+        else
+        {
+            PlayAnimation(IsHuman ? humanAnims.idle : monsterAnims.idle);
+        }
     }
 
     private void HandleImmunity()
