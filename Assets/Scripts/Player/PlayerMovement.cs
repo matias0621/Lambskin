@@ -200,7 +200,7 @@ public class PlayerMovement : NetworkBehaviour
                 // Sonido de pasos (solo para el jugador local)
                 if (Object == null || Object.HasInputAuthority)
                 {
-                    if (_controller.isGrounded && !audioSource.isPlaying)
+                    if (audioSource != null && _controller.isGrounded && !audioSource.isPlaying)
                     {
                         PlaySFX(stepsSFX, true);
                     }
@@ -414,7 +414,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void PlaySFX(AudioClip clip, bool randomPitch = false)
     {
-        if (clip == null) return;
+        if (clip == null || audioSource == null) return;
         audioSource.pitch = randomPitch ? Random.Range(0.8f, 1.2f) : 1.0f;
         audioSource.PlayOneShot(clip);
     }
