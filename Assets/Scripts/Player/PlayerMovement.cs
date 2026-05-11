@@ -30,6 +30,7 @@ public class PlayerMovement : NetworkBehaviour
     [Networked] private NetworkBool IsMaskThrown { get; set; }
     [Networked] private NetworkBool IsAttacking { get; set; }
     [Networked] private Vector2 MovementInput { get; set; }
+    [Networked] private Vector3 NetworkedVelocity { get; set; }
 
     // Variable local para compatibilidad con código existente
     public bool isHuman => IsHuman;
@@ -48,7 +49,6 @@ public class PlayerMovement : NetworkBehaviour
     private CharacterController _controller;
     private Animator _humanAnimator;
     private Animator _monsterAnimator;
-    private Vector3 _velocity;
     private Vector2 _moveInput;
     private string _currentAnim;
     private bool _wasAttackPressed = false;
@@ -67,6 +67,12 @@ public class PlayerMovement : NetworkBehaviour
         
         Debug.Log($"[PlayerMovement] Spawned. HasInputAuthority: {Object.HasInputAuthority}, HasStateAuthority: {Object.HasStateAuthority}");
         
+        // Evitar que el CharacterController pelee con el NetworkTransform en los proxies
+        if (_controller != null)
+        {
+            _controller.enabled = Object.HasStateAuthority || Object.HasInputAuthority;
+        }
+
         // Solo el servidor inicializa el estado
         if (Object.HasStateAuthority)
         {
@@ -110,14 +116,18 @@ public class PlayerMovement : NetworkBehaviour
             Debug.LogWarning($"[PlayerMovement] NO se recibió input pero tengo InputAuthority");
         }
 
-        // Solo el servidor procesa la física y lógica
+        // Solo el servidor gestiona el estado de red
         if (Object.HasStateAuthority)
         {
             // Escribir el input en la propiedad de red para que los clientes puedan leerlo
             MovementInput = _moveInput;
+        }
 
-            HandleImmunity();
+        HandleImmunity();
 
+        // El servidor y el cliente local (para predicción) procesan la física
+        if (Object.HasStateAuthority || Object.HasInputAuthority)
+        {
             if (canMove && !IsStunned)
             {
                 ApplyMovement();
@@ -178,8 +188,10 @@ public class PlayerMovement : NetworkBehaviour
                 // Aceleración suave (Lerp)
                 float targetX = direction.x * speed;
                 float targetZ = direction.z * speed;
-                _velocity.x = Mathf.Lerp(_velocity.x, targetX, acceleration * deltaTime);
-                _velocity.z = Mathf.Lerp(_velocity.z, targetZ, acceleration * deltaTime);
+                Vector3 currentVelocity = NetworkedVelocity;
+                currentVelocity.x = Mathf.Lerp(currentVelocity.x, targetX, acceleration * deltaTime);
+                currentVelocity.z = Mathf.Lerp(currentVelocity.z, targetZ, acceleration * deltaTime);
+                NetworkedVelocity = currentVelocity;
 
                 // Rotación hacia donde mira
                 Quaternion targetRotation = Quaternion.LookRotation(-direction);
@@ -196,22 +208,26 @@ public class PlayerMovement : NetworkBehaviour
             }
             else
             {
-                _velocity.x = Mathf.MoveTowards(_velocity.x, 0, acceleration * deltaTime);
-                _velocity.z = Mathf.MoveTowards(_velocity.z, 0, acceleration * deltaTime);
+                Vector3 currentVelocity = NetworkedVelocity;
+                currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, 0, acceleration * deltaTime);
+                currentVelocity.z = Mathf.MoveTowards(currentVelocity.z, 0, acceleration * deltaTime);
+                NetworkedVelocity = currentVelocity;
             }
         }
 
         // Gravedad constante
+        Vector3 vel = NetworkedVelocity;
         if (!_controller.isGrounded)
         {
-            _velocity.y -= gravity * deltaTime;
+            vel.y -= gravity * deltaTime;
         }
         else
         {
-            _velocity.y = -0.5f; // Mantener pegado al suelo
+            vel.y = -0.5f; // Mantener pegado al suelo
         }
+        NetworkedVelocity = vel;
 
-        _controller.Move(_velocity * deltaTime);
+        _controller.Move(NetworkedVelocity * deltaTime);
     }
 
     /// <summary>
@@ -238,15 +254,16 @@ public class PlayerMovement : NetworkBehaviour
 
     private void HandleImmunity()
     {
-        if (IsImmune && ImmuneTimer.Expired(Runner))
+        if (Object.HasStateAuthority)
         {
-            IsImmune = false;
-            UpdateShineEffect(false);
+            if (IsImmune && ImmuneTimer.Expired(Runner))
+            {
+                IsImmune = false;
+            }
         }
-        else if (IsImmune)
-        {
-            UpdateShineEffect(true);
-        }
+        
+        // Actualizar visuales para todos los clientes
+        UpdateShineEffect(IsImmune);
     }
 
     // --- MECÁNICA CORE: LANZAR MÁSCARA ---
@@ -415,7 +432,9 @@ public class PlayerMovement : NetworkBehaviour
     private void ApplyGravityOnly()
     {
         float deltaTime = Runner != null ? Runner.DeltaTime : Time.deltaTime;
-        if (!_controller.isGrounded) _velocity.y -= gravity * deltaTime;
-        _controller.Move(new Vector3(0, _velocity.y, 0) * deltaTime);
+        Vector3 vel = NetworkedVelocity;
+        if (!_controller.isGrounded) vel.y -= gravity * deltaTime;
+        NetworkedVelocity = vel;
+        _controller.Move(new Vector3(0, NetworkedVelocity.y, 0) * deltaTime);
     }
 }
