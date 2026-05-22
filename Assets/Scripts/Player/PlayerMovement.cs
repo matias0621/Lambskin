@@ -70,7 +70,7 @@ public class PlayerMovement : NetworkBehaviour
         // Evitar que el CharacterController pelee con el NetworkTransform en los proxies
         if (_controller != null)
         {
-            _controller.enabled = Object.HasStateAuthority || Object.HasInputAuthority;
+            _controller.enabled = Object.HasStateAuthority;
         }
 
         // Solo el servidor inicializa el estado
@@ -82,6 +82,7 @@ public class PlayerMovement : NetworkBehaviour
             IsStunned = false;
             IsMaskThrown = false;
             IsAttacking = false;
+            NetworkedVelocity = Vector3.zero;
         }
         
         // Todos los clientes actualizan su visualización
@@ -125,8 +126,9 @@ public class PlayerMovement : NetworkBehaviour
 
         HandleImmunity();
 
-        // El servidor y el cliente local (para predicción) procesan la física
-        if (Object.HasStateAuthority || Object.HasInputAuthority)
+        // Solo la autoridad de estado mueve el CharacterController.
+        // Moverlo también en el cliente acumula movimiento durante resimulaciones de Fusion.
+        if (Object == null || Object.HasStateAuthority)
         {
             if (canMove && !IsStunned)
             {
@@ -177,6 +179,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         // Usar el deltaTime correcto (Runner para red, Time para local)
         float deltaTime = Runner != null ? Runner.DeltaTime : Time.deltaTime;
+        Vector3 velocity = NetworkedVelocity;
         
         // Convertir el input 2D a movimiento 3D
         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
@@ -188,10 +191,8 @@ public class PlayerMovement : NetworkBehaviour
                 // Aceleración suave (Lerp)
                 float targetX = direction.x * speed;
                 float targetZ = direction.z * speed;
-                Vector3 currentVelocity = NetworkedVelocity;
-                currentVelocity.x = Mathf.Lerp(currentVelocity.x, targetX, acceleration * deltaTime);
-                currentVelocity.z = Mathf.Lerp(currentVelocity.z, targetZ, acceleration * deltaTime);
-                NetworkedVelocity = currentVelocity;
+                velocity.x = Mathf.Lerp(velocity.x, targetX, acceleration * deltaTime);
+                velocity.z = Mathf.Lerp(velocity.z, targetZ, acceleration * deltaTime);
 
                 // Rotación hacia donde mira
                 Quaternion targetRotation = Quaternion.LookRotation(-direction);
@@ -208,26 +209,23 @@ public class PlayerMovement : NetworkBehaviour
             }
             else
             {
-                Vector3 currentVelocity = NetworkedVelocity;
-                currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, 0, acceleration * deltaTime);
-                currentVelocity.z = Mathf.MoveTowards(currentVelocity.z, 0, acceleration * deltaTime);
-                NetworkedVelocity = currentVelocity;
+                velocity.x = Mathf.MoveTowards(velocity.x, 0, acceleration * deltaTime);
+                velocity.z = Mathf.MoveTowards(velocity.z, 0, acceleration * deltaTime);
             }
         }
 
         // Gravedad constante
-        Vector3 vel = NetworkedVelocity;
         if (!_controller.isGrounded)
         {
-            vel.y -= gravity * deltaTime;
+            velocity.y -= gravity * deltaTime;
         }
         else
         {
-            vel.y = -0.5f; // Mantener pegado al suelo
+            velocity.y = -0.5f; // Mantener pegado al suelo
         }
-        NetworkedVelocity = vel;
 
-        _controller.Move(NetworkedVelocity * deltaTime);
+        NetworkedVelocity = velocity;
+        _controller.Move(velocity * deltaTime);
     }
 
     /// <summary>
@@ -435,6 +433,6 @@ public class PlayerMovement : NetworkBehaviour
         Vector3 vel = NetworkedVelocity;
         if (!_controller.isGrounded) vel.y -= gravity * deltaTime;
         NetworkedVelocity = vel;
-        _controller.Move(new Vector3(0, NetworkedVelocity.y, 0) * deltaTime);
+        _controller.Move(new Vector3(0, vel.y, 0) * deltaTime);
     }
 }
