@@ -35,25 +35,37 @@ public class NetworkInputProvider : SimulationBehaviour, INetworkRunnerCallbacks
         _inputData.movementInput = Vector2.zero;
         _inputData.attackPressed = false;
 
-        // Obtener input del jugador local (gamepad o teclado)
+        // Obtener input del jugador local desde teclado y gamepad.
+        // Gamepad.current puede existir aunque el stick esté quieto, así que no debe
+        // impedir que WASD funcione.
         var gamepad = Gamepad.current;
         var keyboard = Keyboard.current;
 
-        if (gamepad != null)
+        Vector2 move = Vector2.zero;
+        bool attackPressed = false;
+
+        if (keyboard != null)
         {
-            _inputData.movementInput = gamepad.leftStick.ReadValue();
-            _inputData.attackPressed = gamepad.buttonSouth.isPressed;
-        }
-        else if (keyboard != null)
-        {
-            Vector2 move = Vector2.zero;
             if (keyboard.wKey.isPressed) move.y += 1;
             if (keyboard.sKey.isPressed) move.y -= 1;
             if (keyboard.aKey.isPressed) move.x -= 1;
             if (keyboard.dKey.isPressed) move.x += 1;
-            _inputData.movementInput = move.normalized;
-            _inputData.attackPressed = keyboard.spaceKey.isPressed;
+            attackPressed |= keyboard.spaceKey.isPressed;
         }
+
+        if (gamepad != null)
+        {
+            Vector2 gamepadMove = gamepad.leftStick.ReadValue();
+            if (gamepadMove.sqrMagnitude > move.sqrMagnitude)
+            {
+                move = gamepadMove;
+            }
+
+            attackPressed |= gamepad.buttonSouth.isPressed;
+        }
+
+        _inputData.movementInput = move.sqrMagnitude > 1f ? move.normalized : move;
+        _inputData.attackPressed = attackPressed;
 
         if (_inputData.movementInput.magnitude > 0.1f)
         {
