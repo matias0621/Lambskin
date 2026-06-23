@@ -44,45 +44,9 @@ public class Mask : MonoBehaviour
         // Destroy(gameObject); 
     }
 
-    // --- DETECCIÓN DE COLISIÓN (Equivalente a _on_area_3d_body_entered) ---
-
     private void OnTriggerEnter(Collider other)
     {
-        if (ownerPlayer == null)
-        {
-            Debug.LogWarning("ADVERTENCIA: La máscara no tiene referencia al jugador");
-            return;
-        }
-
-        // Comprobar si el objeto tocado es un monstruo
-        if (!other.CompareTag("Monster")) return;
-
-        // Obtener el script del jugador tocado
-        PlayerMovement targetPlayer = other.GetComponent<PlayerMovement>();
-        if (targetPlayer == null) return;
-
-        // Verificar inmunidad (usando la propiedad Networked del script Player)
-        if (targetPlayer.IsImmune) 
-        {
-            Debug.Log("Monstruo es inmune");
-            return;
-        }
-
-        // Probabilidad de éxito (40% éxito, 60% falla según tu randf() > 0.6)
-        if (Random.value > 0.4f) 
-        {
-            Debug.Log("¡Transformación exitosa!");
-            
-            // Realizar el intercambio de roles
-            targetPlayer.SetAsHuman();
-            ownerPlayer.SetAsMonster();
-            
-            // Opcional: Desactivar la máscara tras el impacto
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Debug.Log("Transformación fallida");
-        }
+        // La resolucion de impacto vive en PlayerMovement para que solo el host
+        // decida cambios de rol y todos los clientes vean el mismo resultado.
     }
 }

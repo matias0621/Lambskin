@@ -685,6 +685,8 @@ GameObject:
   - component: {fileID: 1996242956}
   - component: {fileID: 1996242959}
   - component: {fileID: 1996242960}
+  - component: {fileID: 1996242961}
+  - component: {fileID: 1996242962}
   m_Layer: 0
   m_Name: Prototype Runner
   m_TagString: Untagged
@@ -806,6 +808,7 @@ MonoBehaviour:
   - {fileID: 1153083659}
   - {fileID: 667774580}
   - {fileID: 678681893}
+  maxPlayers: 4
 --- !u!114 &1996242960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,6 +821,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30a91ac8874adb4a80ea6d8f834745b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1996242961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996242955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f4a8cb5963343d48b919daca4ecbde1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPlayers: 4
+  mainMenuSceneIndex: 0
+--- !u!114 &1996242962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996242955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b4c650c5e24304a6ee0425f3b2ac1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  humanTimeLimit: 60
+  minPlayers: 2
+  maxPlayers: 4
+  maskSuccessChance: 0.5
 --- !u!1 &2039071473
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,7 +868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2039071474
 MonoBehaviour:
   m_ObjectHideFlags: 0
