@@ -50,7 +50,7 @@ public class NetworkInputProvider : SimulationBehaviour, INetworkRunnerCallbacks
             if (keyboard.sKey.isPressed) move.y -= 1;
             if (keyboard.aKey.isPressed) move.x -= 1;
             if (keyboard.dKey.isPressed) move.x += 1;
-            attackPressed |= keyboard.spaceKey.isPressed;
+            attackPressed |= keyboard.spaceKey.isPressed || keyboard.eKey.isPressed;
         }
 
         if (gamepad != null)
@@ -66,11 +66,6 @@ public class NetworkInputProvider : SimulationBehaviour, INetworkRunnerCallbacks
 
         _inputData.movementInput = move.sqrMagnitude > 1f ? move.normalized : move;
         _inputData.attackPressed = attackPressed;
-
-        if (_inputData.movementInput.magnitude > 0.1f)
-        {
-            Debug.Log($"[NetworkInputProvider] OnInput llamado. Input: {_inputData.movementInput}");
-        }
 
         input.Set(_inputData);
     }

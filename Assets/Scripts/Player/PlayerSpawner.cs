@@ -9,6 +9,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private int maxPlayers = NetworkSessionRequest.MaxPlayers;
 
     private void Awake()
     {
@@ -35,6 +36,19 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         // Solo el servidor/host spawnea jugadores
         if (Runner.IsServer)
         {
+            NetworkMatchController matchController = NetworkMatchController.Instance;
+            if (matchController != null && !matchController.CanAcceptNewPlayer())
+            {
+                Debug.LogWarning($"[PlayerSpawner] Jugador {player} no puede entrar: sala llena o partida en curso.");
+                return;
+            }
+
+            if (GetSpawnedPlayerCount() >= maxPlayers)
+            {
+                Debug.LogWarning($"[PlayerSpawner] Jugador {player} no puede entrar: maximo de {maxPlayers} jugadores alcanzado.");
+                return;
+            }
+
             if (playerPrefab == null)
             {
                 Debug.LogError("[PlayerSpawner] ❌ No se puede spawnear: playerPrefab es null");
@@ -47,7 +61,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
                 return;
             }
             
-            var index = player.AsIndex % spawnPoints.Length;
+            var index = Mathf.Abs(player.AsIndex) % spawnPoints.Length;
             Debug.Log($"[PlayerSpawner] 📍 Spawneando jugador {player} en spawn point {index} (posición: {spawnPoints[index].position})");
             
             var spawnedPlayer = Runner.Spawn(
@@ -59,6 +73,14 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             
             if (spawnedPlayer != null)
             {
+                Runner.SetPlayerObject(player, spawnedPlayer);
+
+                PlayerMovement playerMovement = spawnedPlayer.GetComponent<PlayerMovement>();
+                if (playerMovement != null)
+                {
+                    playerMovement.InitializeForPlayer(player);
+                }
+
                 Debug.Log($"[PlayerSpawner] ✅ Jugador {player} spawneado exitosamente: {spawnedPlayer.name}");
             }
             else
@@ -70,5 +92,21 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         {
             Debug.Log($"[PlayerSpawner] ⏭️ No soy servidor, saltando spawn para {player}");
         }
+    }
+
+    private int GetSpawnedPlayerCount()
+    {
+        int count = 0;
+        PlayerMovement[] players = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None);
+
+        foreach (PlayerMovement player in players)
+        {
+            if (player != null && player.HasOwner)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
