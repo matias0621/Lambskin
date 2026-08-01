@@ -64,6 +64,9 @@ public class MainMenuUI : MonoBehaviour
         Button joinButton = CreateButton("Unirse a partida", content, new Color(0.12f, 0.36f, 0.44f, 1f));
         joinButton.onClick.AddListener(JoinSession);
 
+        Button testButton = CreateButton("Prueba online (4 jugadores)", content, new Color(0.35f, 0.28f, 0.12f, 1f));
+        testButton.onClick.AddListener(StartMultiPeerTest);
+
         _statusLabel = CreateText(string.Empty, content, 18, FontStyles.Normal, TextAlignmentOptions.Center);
         _statusLabel.color = new Color(0.9f, 0.86f, 0.76f, 1f);
         SetLayout(_statusLabel.gameObject, 520f, 58f);
@@ -88,6 +91,14 @@ public class MainMenuUI : MonoBehaviour
 
         NetworkSessionRequest.Set(GameMode.Client, roomName);
         _statusLabel.text = $"Uniendose a {roomName}...";
+        SceneManager.LoadScene(NetworkSessionRequest.GameSceneIndex);
+    }
+
+    private void StartMultiPeerTest()
+    {
+        string roomName = NetworkSessionRequest.NormalizeSessionName(_roomInput.text);
+        NetworkSessionRequest.SetMultiPeerTest(roomName);
+        _statusLabel.text = "Iniciando prueba con 4 jugadores...";
         SceneManager.LoadScene(NetworkSessionRequest.GameSceneIndex);
     }
 

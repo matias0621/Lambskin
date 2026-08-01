@@ -30,7 +30,12 @@ public class NetworkMatchController : SimulationBehaviour, INetworkRunnerCallbac
 
     private void Awake()
     {
-        Instance = this;
+        // En Multi-Peer hay un controlador por runner. El HUD debe consultar
+        // siempre el del host, que es quien tiene autoridad sobre la partida.
+        if (Instance == null || !Instance.isActiveAndEnabled || (Runner != null && Runner.IsServer))
+        {
+            Instance = this;
+        }
     }
 
     private void Start()

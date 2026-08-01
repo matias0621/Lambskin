@@ -4,6 +4,7 @@ using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 [RequireComponent(typeof(NetworkRunner))]
 public class NetworkSessionManager : MonoBehaviour, INetworkRunnerCallbacks
@@ -17,12 +18,16 @@ public class NetworkSessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner _runner;
     private bool _isStarting;
     private bool _isReturningToMenu;
+    private static bool _multiPeerBootstrapStarted;
 
     public NetworkRunner Runner => _runner;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
         _runner = GetComponent<NetworkRunner>();
         _runner.ProvideInput = true;
     }
@@ -35,6 +40,23 @@ public class NetworkSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         _isStarting = true;
+
+        if (NetworkSessionRequest.IsMultiPeerTest)
+        {
+            if (_multiPeerBootstrapStarted)
+            {
+                // Este es uno de los runners clonados por FusionBootstrap.
+                // Debe registrar sus callbacks, pero no iniciar otro bootstrap.
+                EnsureRunnerComponents();
+                MatchHudUI.EnsureExists();
+                return;
+            }
+
+            _multiPeerBootstrapStarted = true;
+            _isStarting = false;
+            StartCoroutine(StartMultiPeerTest());
+            return;
+        }
 
         if (!NetworkSessionRequest.HasPendingRequest)
         {
@@ -73,6 +95,49 @@ public class NetworkSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         NetworkSessionRequest.ClearPending();
         NetworkSessionRequest.SetStatus($"Conectado a {args.SessionName}");
         MatchHudUI.EnsureExists();
+    }
+
+    private IEnumerator StartMultiPeerTest()
+    {
+        // Este objeto pertenece a la escena y sirve como prefab para FusionBootstrap.
+        // El manager debe permanecer activo: Fusion clonará también este componente y
+        // cada peer necesita registrar sus callbacks de red.
+        NetworkRunner runnerPrefab = _runner;
+        if (runnerPrefab == null)
+        {
+            NetworkSessionRequest.SetStatus("No se pudo preparar el runner de prueba.");
+            yield break;
+        }
+
+        Fusion.FusionBootstrap bootstrap = null;
+        Fusion.FusionBootstrap[] bootstraps = Resources.FindObjectsOfTypeAll<Fusion.FusionBootstrap>();
+        foreach (Fusion.FusionBootstrap candidate in bootstraps)
+        {
+            if (candidate.gameObject.scene == SceneManager.GetActiveScene())
+            {
+                bootstrap = candidate;
+                break;
+            }
+        }
+
+        if (bootstrap == null || runnerPrefab == null)
+        {
+            NetworkSessionRequest.SetStatus("No se pudo preparar el modo Multi-Peer.");
+            Debug.LogError("[NetworkSessionManager] Falta FusionBootstrap o el runner de prueba.");
+            yield break;
+        }
+
+        bootstrap.RunnerPrefab = runnerPrefab;
+        bootstrap.StartMode = Fusion.FusionBootstrap.StartModes.Manual;
+        bootstrap.AutoClients = NetworkSessionRequest.MaxPlayers - 1;
+        bootstrap.DefaultRoomName = NetworkSessionRequest.SessionName;
+        bootstrap.gameObject.SetActive(true);
+
+        // Esperar a que FusionBootstrap complete su inicialización de escena.
+        yield return null;
+        bootstrap.StartHostPlusClients(NetworkSessionRequest.MaxPlayers - 1);
+        NetworkSessionRequest.ClearPending();
+        NetworkSessionRequest.SetStatus("Prueba online: host + 3 clientes virtuales");
     }
 
     private void EnsureRunnerComponents()
