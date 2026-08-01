@@ -1,0 +1,9 @@
+# Nivel de detalle en el razonamiento y explicaciones del modelo.
+model_reasoning_effort = "medium" 
+# Contestación mínima, concisa y directa.
+model_verbosity = "low"
+# Enfocado en resultados, eficiente y directo.
+personality = "pragmatic" 
+
+[features]
+multi_agent = true
